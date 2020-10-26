@@ -25,7 +25,7 @@ public class GameData
 
     public Sprite image;
 
-    public bool isCharracterModel;
+    public bool isCharacterModel;
     public bool isFriendly;
     public bool isEnemy;
 
