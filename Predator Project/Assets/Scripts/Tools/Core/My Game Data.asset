@@ -13,11 +13,29 @@ MonoBehaviour:
   m_Name: My Game Data
   m_EditorClassIdentifier: 
   gameData:
+  - name: Kavu
+    title: Yes
+    description: My name is kavu I'm nice
+    image: {fileID: 0}
+    isCharacterModel: 0
+    isFriendly: 0
+    isEnemy: 0
+    modelData: {fileID: 0}
+    stats:
+      hp: 0
+      xp: 0
+      hunger: 0
+      stamina: 0
+    currentInventorySize: 45
+    nextInventorySize: 45
+    maxInventorySize: 45
+    inventoryUpgradeCost: 45
+    startingInventory: []
   - name: 
     title: 
     description: 
     image: {fileID: 0}
-    isCharracterModel: 0
+    isCharacterModel: 0
     isFriendly: 0
     isEnemy: 0
     modelData: {fileID: 0}
@@ -35,7 +53,7 @@ MonoBehaviour:
     title: 
     description: 
     image: {fileID: 0}
-    isCharracterModel: 0
+    isCharacterModel: 0
     isFriendly: 0
     isEnemy: 0
     modelData: {fileID: 0}
@@ -53,7 +71,7 @@ MonoBehaviour:
     title: 
     description: 
     image: {fileID: 0}
-    isCharracterModel: 0
+    isCharacterModel: 0
     isFriendly: 0
     isEnemy: 0
     modelData: {fileID: 0}
@@ -71,25 +89,7 @@ MonoBehaviour:
     title: 
     description: 
     image: {fileID: 0}
-    isCharracterModel: 0
-    isFriendly: 0
-    isEnemy: 0
-    modelData: {fileID: 0}
-    stats:
-      hp: 0
-      xp: 0
-      hunger: 0
-      stamina: 0
-    currentInventorySize: 0
-    nextInventorySize: 0
-    maxInventorySize: 0
-    inventoryUpgradeCost: 0
-    startingInventory: []
-  - name: 
-    title: 
-    description: 
-    image: {fileID: 0}
-    isCharracterModel: 0
+    isCharacterModel: 0
     isFriendly: 0
     isEnemy: 0
     modelData: {fileID: 0}
