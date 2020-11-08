@@ -14,8 +14,8 @@ public class Grid : MonoBehaviour
 
     public Vector3 originPosition;
     
-    private Case[,] caseArray;
-    public Case[,] CaseArray { get => caseArray; set => caseArray = value; }
+    private Case[,] cases;
+    public Case[,] Cases { get => cases; set => cases = value; }
 
     public Transform player;
 
@@ -56,11 +56,11 @@ public class Grid : MonoBehaviour
 
     public void CreateGrid()
     {
-        caseArray = new Case[width, height];
+        cases = new Case[width, height];
 
-        for (int x = 0; x < caseArray.GetLength(0); x++)
+        for (int x = 0; x < cases.GetLength(0); x++)
         {
-            for (int y = 0; y < caseArray.GetLength(1); y++)
+            for (int y = 0; y < cases.GetLength(1); y++)
             {
                 GetTile(transform, x, y);
             }
@@ -76,7 +76,7 @@ public class Grid : MonoBehaviour
         {
             if (child.localPosition == casePos)
             {
-                caseArray[x, y] = child.gameObject.GetComponent<Case>();
+                cases[x, y] = child.gameObject.GetComponent<Case>();
             }
         }
     }
@@ -111,16 +111,16 @@ public class Grid : MonoBehaviour
 
     private void DrawGrid()
     {
-        for (int x = 0; x < caseArray.GetLength(0); x++)
+        for (int x = 0; x < cases.GetLength(0); x++)
         {
-            for (int y = 0; y < caseArray.GetLength(1); y++)
+            for (int y = 0; y < cases.GetLength(1); y++)
             {
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white);
             }
         }
-        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
-        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white);
+        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white);
     }
 
     private Vector3 GetWorldPosition(int x, int y)
@@ -152,8 +152,8 @@ public class Grid : MonoBehaviour
     {
         if (x == currentX && y == currentY) return;
 
-        foreach (Case _case in caseArray) if (_case != selected) _case.hoverObject.SetActive(false);
-        caseArray[x, y].hoverObject.SetActive(true);
+        foreach (Case _case in cases) if (_case != selected) _case.hoverObject.SetActive(false);
+        cases[x, y].hoverObject.SetActive(true);
 
         currentX = x;
         currentY = y;
@@ -161,21 +161,21 @@ public class Grid : MonoBehaviour
 
     public void SelectTile(int x, int y)
     {
-        foreach (Case _case in caseArray) { _case.hoverObject.SetActive(false); _case.hoverObject.GetComponent<SpriteRenderer>().color = Color.white; }
-        caseArray[x, y].hoverObject.SetActive(true);
-        caseArray[x, y].hoverObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+        foreach (Case _case in cases) { _case.hoverObject.SetActive(false); _case.hoverObject.GetComponent<SpriteRenderer>().color = Color.white; }
+        cases[x, y].hoverObject.SetActive(true);
+        cases[x, y].hoverObject.GetComponent<SpriteRenderer>().color = Color.yellow;
 
-        selected = caseArray[x, y];
+        selected = cases[x, y];
     }
     
     public void MoveToTile(int x, int y)
     {
-        player.position = caseArray[x, y].gameObject.transform.position;
+        player.position = cases[x, y].gameObject.transform.position;
     }
 
     public void AttackTile(int x, int y)
     {
-        if (caseArray[x, y].enemy != null)
+        if (cases[x, y].enemy != null)
         {
             // Kill the Enemy
         }
@@ -198,7 +198,7 @@ public class Grid : MonoBehaviour
         {
             for (int _y = 0; _y < height; _y++)
             {
-                caseArray[_x, _y].inActionArea = (_x >= minX && _y >= minY && _x < maxX && _y < maxY) ? true : false;
+                cases[_x, _y].inActionArea = (_x >= minX && _y >= minY && _x < maxX && _y < maxY) ? true : false;
             }
         }
     }

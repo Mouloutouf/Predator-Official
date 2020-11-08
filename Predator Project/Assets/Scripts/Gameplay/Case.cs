@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Environments { None, HighGrass, SwampWater, DeepWater, Patio, Mud }
-
 public class Case : MonoBehaviour
 {
     public Environments environment;
