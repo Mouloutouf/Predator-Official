@@ -34,11 +34,11 @@ public class Grid : MonoBehaviour
 
     private void Update()
     {
-        Action(Functions.GetMouseWorldPosition(), HoverTile);
+        Action(Functions._GetMouseWorldPosition(), HoverTile);
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (clickAction_ != null) Action(Functions.GetMouseWorldPosition(), clickAction_);
+            if (clickAction_ != null) Action(Functions._GetMouseWorldPosition(), clickAction_);
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -132,7 +132,7 @@ public class Grid : MonoBehaviour
 
     /// Core Methods : Hover, Selection, Information
 
-    public void Action(Vector3 worldPosition, _Action_ action_)
+    public void Action(Vector2 worldPosition, _Action_ action_)
     {
         int x, y;
         ConvertPositionToGridCoordinates(worldPosition, out x, out y);
