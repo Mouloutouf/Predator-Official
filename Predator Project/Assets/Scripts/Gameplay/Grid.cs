@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,113 +8,134 @@ public delegate void _Action_(int x, int y);
 
 public class Grid : MonoBehaviour
 {
-    public int width;
-    public int height;
+    public Level level;
 
-    public int cellSize;
+    public GameObject levelCanvas;
 
-    public Vector3 originPosition;
-    
-    private Case[,] cases;
-    public Case[,] Cases { get => cases; set => cases = value; }
+    public RectTransform displayOrigin;
+    public Transform cellsOrigin;
+    public Vector3 originPosition { get => cellsOrigin.position; }
+
+    public CellDefinition definition { get => level.definition; }
+
+    public int width { get => level.width; }
+    public int height { get => level.height; }
+
+    public float cellSize { get; } = 1;
+
+    public GameObject cellPrefab;
+    public GameObject displayPrefab;
+
+    public CellBehaviour[,] cells { get; private set; }
+
+    //\
 
     public Transform player;
 
     private _Action_ clickAction_;
 
-    //\
-
     public int moveArea;
 
-    private void Start()
+    private int currentX;
+    private int currentY;
+
+    private CellBehaviour selectedCell;
+
+    void Start()
     {
         CreateGrid();
-
-        clickAction_ = SelectTile; //Replace with Reset
     }
 
-    private void Update()
-    {
-        Action(Functions._GetMouseWorldPosition(), HoverTile);
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (clickAction_ != null) Action(Functions._GetMouseWorldPosition(), clickAction_);
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            //grid.GetInfoOnTile();
-        }
-    }
-    
-    public void Reset()
-    {
-        clickAction_ = null;
-    }
-
-    /// Initialize Grid : Get Tiles into Table Array
-
+    #region Creation
+    //[Button]
     public void CreateGrid()
     {
-        cases = new Case[width, height];
+        cells = new CellBehaviour[width, height];
 
-        for (int x = 0; x < cases.GetLength(0); x++)
+        levelCanvas.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+
+        cellsOrigin.position = displayOrigin.transform.position;
+
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < cases.GetLength(1); y++)
+            for (int y = 0; y < height; y++)
             {
-                GetTile(transform, x, y);
+                Vector3 position = ConvertCoordinatesToLocalPosition(x, y);
+
+                GameObject cellObject = Instantiate(cellPrefab);
+                cellObject.transform.parent = cellsOrigin;
+                cellObject.transform.position = position;
+
+                GameObject cellDisplay = Instantiate(displayPrefab);
+                cellDisplay.transform.parent = displayOrigin;
+                cellDisplay.transform.position = position;
+
+                CellBehaviour cell = cellObject.GetComponent<CellBehaviour>();
+                cell._definition = definition;
+                cell._object = cellObject;
+                cell._display = cellDisplay;
             }
         }
     }
-    
-    private void GetTile(Transform parent, int x, int y)
+    #endregion
+
+    #region Get
+    public void GetGrid()
     {
-        Vector3 casePos;
-        ConvertCoordinatesToLocalPosition(x, y, out casePos);
-        
+        cells = new CellBehaviour[width, height];
+
+        for (int x = 0; x < cells.GetLength(0); x++)
+        {
+            for (int y = 0; y < cells.GetLength(1); y++)
+            {
+                GetCellObject(transform, x, y);
+            }
+        }
+    }
+
+    private void GetCellObject(Transform parent, int x, int y)
+    {
+        Vector3 pos = ConvertCoordinatesToLocalPosition(x, y);
+
         foreach (Transform child in parent)
         {
-            if (child.localPosition == casePos)
+            if (child.localPosition == pos)
             {
-                cases[x, y] = child.gameObject.GetComponent<Case>();
+                cells[x, y] = child.gameObject.GetComponent<CellBehaviour>();
             }
         }
     }
-    
-    //\
+    #endregion
 
-    /// Conversion Methods : World to Grid and vice versa
-
-    private void ConvertCoordinatesToLocalPosition(int x, int y, out Vector3 localPosition)
+    #region Conversion
+    private Vector3 ConvertCoordinatesToLocalPosition(int x, int y)
     {
-        int _x = (x * cellSize) + (cellSize / 2);
-        int _y = (y * cellSize) + (cellSize / 2);
-        localPosition = new Vector3(_x, _y);
+        float _x = (x * cellSize) + (cellSize / 2);
+        float _y = (y * cellSize) + (cellSize / 2);
+
+        return new Vector3(_x, _y);
     }
 
-    private void ConvertCoordinatesToWorldPosition(int x, int y, out Vector3 worldPosition)
-    {
-        ConvertCoordinatesToLocalPosition(x, y, out worldPosition);
+    //private void ConvertCoordinatesToWorldPosition(int x, int y, out Vector3 worldPosition)
+    //{
+    //    ConvertCoordinatesToLocalPosition(x, y, out worldPosition);
 
-        worldPosition += originPosition;
-    }
-    
+    //    worldPosition += originPosition;
+    //}
+
     private void ConvertPositionToGridCoordinates(Vector3 worldPosition, out int x, out int y)
     {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
         y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
     }
+    #endregion
 
-    //\
-
-    /// Grid Visual : Gizmos Drawing Method
-
+    #region Draw
     private void DrawGrid()
     {
-        for (int x = 0; x < cases.GetLength(0); x++)
+        for (int x = 0; x < cells.GetLength(0); x++)
         {
-            for (int y = 0; y < cases.GetLength(1); y++)
+            for (int y = 0; y < cells.GetLength(1); y++)
             {
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white);
@@ -127,10 +149,28 @@ public class Grid : MonoBehaviour
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }
+    #endregion
 
-    //\
+    #region Actions
+    void Update()
+    {
+        Action(Functions._GetMouseWorldPosition(), HoverTile);
 
-    /// Core Methods : Hover, Selection, Information
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (clickAction_ != null) Action(Functions._GetMouseWorldPosition(), clickAction_);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            //grid.GetInfoOnTile();
+        }
+    }
+
+    public void ResetAction()
+    {
+        clickAction_ = null;
+    }
 
     public void Action(Vector2 worldPosition, _Action_ action_)
     {
@@ -143,17 +183,12 @@ public class Grid : MonoBehaviour
         }
     }
 
-    private int currentX;
-    private int currentY;
-
-    private Case selected;
-
     public void HoverTile(int x, int y)
     {
         if (x == currentX && y == currentY) return;
 
-        foreach (Case _case in cases) if (_case != selected) _case.hoverObject.SetActive(false);
-        cases[x, y].hoverObject.SetActive(true);
+        foreach (CellBehaviour _case in cells) if (_case != selectedCell) _case.hoverObject.SetActive(false);
+        cells[x, y].hoverObject.SetActive(true);
 
         currentX = x;
         currentY = y;
@@ -161,27 +196,25 @@ public class Grid : MonoBehaviour
 
     public void SelectTile(int x, int y)
     {
-        foreach (Case _case in cases) { _case.hoverObject.SetActive(false); _case.hoverObject.GetComponent<SpriteRenderer>().color = Color.white; }
-        cases[x, y].hoverObject.SetActive(true);
-        cases[x, y].hoverObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+        foreach (CellBehaviour _case in cells) { _case.hoverObject.SetActive(false); _case.hoverObject.GetComponent<SpriteRenderer>().color = Color.white; }
+        cells[x, y].hoverObject.SetActive(true);
+        cells[x, y].hoverObject.GetComponent<SpriteRenderer>().color = Color.yellow;
 
-        selected = cases[x, y];
+        selectedCell = cells[x, y];
     }
-    
+
     public void MoveToTile(int x, int y)
     {
-        player.position = cases[x, y].gameObject.transform.position;
+        player.position = cells[x, y].gameObject.transform.position;
     }
 
     public void AttackTile(int x, int y)
     {
-        if (cases[x, y].enemy != null)
+        if (cells[x, y].enemy != null)
         {
             // Kill the Enemy
         }
     }
-
-    //\
 
     public void SetTilesToAction(Vector3 playerPosition, int area)
     {
@@ -198,8 +231,9 @@ public class Grid : MonoBehaviour
         {
             for (int _y = 0; _y < height; _y++)
             {
-                cases[_x, _y].inActionArea = (_x >= minX && _y >= minY && _x < maxX && _y < maxY) ? true : false;
+                cells[_x, _y].inActionArea = (_x >= minX && _y >= minY && _x < maxX && _y < maxY) ? true : false;
             }
         }
-    }
+    } 
+    #endregion
 }

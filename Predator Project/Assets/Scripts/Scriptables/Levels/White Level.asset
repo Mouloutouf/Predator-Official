@@ -10,5 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa24fd24e159f754e88fd887da303406, type: 3}
-  m_Name: Test Level
+  m_Name: White Level
   m_EditorClassIdentifier: 
+  width: 4
+  height: 4
+  definition: {fileID: 11400000, guid: 81df42f0df358f54f93c1c6ee8401e83, type: 2}

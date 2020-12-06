@@ -28,6 +28,6 @@ public class Movement : Action
 
     public override void Execute(int x, int y)
     {
-        player.position = grid.Cases[x, y].gameObject.transform.position;
+        player.position = grid.cells[x, y].gameObject.transform.position;
     }
 }

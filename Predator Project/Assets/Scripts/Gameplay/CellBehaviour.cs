@@ -4,15 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Case : MonoBehaviour
+public class CellBehaviour : MonoBehaviour
 {
-    public Environments environment;
+    public CellDefinition _definition { get; set; }
 
-    public bool visible;
-    public bool noise;
-    public bool path;
-    public bool traces;
-    
+    public GameObject _object { get; set; }
+    public GameObject _display { get; set; }
+
+    //\
+
     public GameObject caseObject;
 
     public GameObject hoverObject;
