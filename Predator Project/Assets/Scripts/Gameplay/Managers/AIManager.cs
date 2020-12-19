@@ -6,6 +6,15 @@ namespace Predator
 {
     public class AIManager : MonoBehaviour
     {
+        public bool aIIsActive { get; set; }
+
+        private float waitTime = 2f;
+        private float currentTime;
+
+        public GameManager gameManager;
+
+        public Transform aIInterface;
+
         public List<EnemyManager> enemies = new List<EnemyManager>();
 
         void Start()
@@ -16,6 +25,24 @@ namespace Predator
 
                 Grid.instance.cells[eX, eY].enemy = enemy;
             }
+        }
+
+        void Update()
+        {
+            if (aIIsActive)
+            {
+                if (currentTime <= 0.0f)
+                {
+                    gameManager.ChangeTurn();
+                }
+
+                currentTime -= Time.deltaTime;
+            }
+        }
+
+        public void SetAITurn()
+        {
+            currentTime = waitTime;
         }
     } 
 }

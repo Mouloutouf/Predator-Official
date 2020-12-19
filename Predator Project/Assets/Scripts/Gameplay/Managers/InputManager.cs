@@ -9,6 +9,8 @@ namespace Predator
 
     public class InputManager : MonoBehaviour
     {
+        public bool inputActive { get; set; }
+
         public Grid grid { get; private set; }
 
         private _Action_ clickAction_;
@@ -32,15 +34,18 @@ namespace Predator
         {
             Action(Functions.GetMouseWorldPosition(), HoverCell);
 
-            if (Input.GetMouseButtonDown(0))
+            if (inputActive)
             {
-                Vector3 mousePosition = Functions.GetMouseWorldPosition();
-                if (clickAction_ != null) Action(mousePosition, clickAction_);
-            }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Vector3 mousePosition = Functions.GetMouseWorldPosition();
+                    if (clickAction_ != null) Action(mousePosition, clickAction_);
+                }
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                //grid.GetInfoOnTile();
+                if (Input.GetMouseButtonDown(1))
+                {
+                    //grid.GetInfoOnTile();
+                } 
             }
         }
 

@@ -42,14 +42,18 @@ namespace Predator
             {
                 cell.enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
                 cell.enemy.Die();
-                cell.enemy = null;
-
+                
                 foreach (CellBehaviour _cell in grid.cells)
                 {
                     _cell._display.color = Color.white;
                 }
 
-                EnableAction(true);
+                player.currentPoints--;
+                player.currentEnergy += cell.enemy.energyAmount;
+
+                cell.enemy = null;
+
+                if (player.currentPoints > 0) EnableAction(true);
             }
         }
     } 

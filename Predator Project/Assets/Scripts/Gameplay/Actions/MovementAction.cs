@@ -55,7 +55,10 @@ namespace Predator
                     _cell._display.color = Color.white;
                 }
 
-                EnableAction(true);
+                player.currentPoints--;
+                player.currentEnergy -= energyCost;
+
+                if (player.currentPoints > 0) EnableAction(true);
             }
         }
     } 

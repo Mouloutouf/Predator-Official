@@ -9,6 +9,8 @@ namespace Predator
     {
         public Image enemyDisplay;
 
+        public float energyAmount;
+
         public void GetEnemyPosition(out int x, out int y)
         {
             Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);
