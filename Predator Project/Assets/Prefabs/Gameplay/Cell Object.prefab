@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4331854553870320250}
   - component: {fileID: 4331854553870320133}
   m_Layer: 0
-  m_Name: Case Input
+  m_Name: Cell Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9e857380077d3419795cfddce654c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  caseObject: {fileID: 0}
-  hoverObject: {fileID: 0}
-  actionAreaObject: {fileID: 0}
+  moveAreaColor: {r: 0.4009434, g: 0.7457669, b: 1, a: 1}
+  attackAreaColor: {r: 1, g: 0.3160377, b: 0.3840937, a: 1}
