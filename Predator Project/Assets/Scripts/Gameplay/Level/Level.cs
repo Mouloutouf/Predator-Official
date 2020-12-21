@@ -5,26 +5,41 @@ using UnityEngine;
 
 namespace Predator
 {
+    [System.Serializable]
+    public class EnvironmentMap
+    {
+        public EnvironmentArray[] environmentArrays;
+    }
+    [System.Serializable]
+    public class EnvironmentArray
+    {
+        public Environment[] environments;
+    }
+
     [CreateAssetMenu(fileName = "New Level", menuName = "Scriptables/Level")]
     public class Level : ScriptableObject
     {
         public int width;
         public int height;
 
-        public Environments EnvironmentDataBase;
+        public EnvironmentDataTypes EnvironmentDataBase;
 
-        public Environment[,] cellsEnvironments;
+        public EnvironmentMap map { get; set; }
 
         [ContextMenu("Initialize Level")]
         public void InitializeLevel()
         {
-            cellsEnvironments = new Environment[width, height];
+            map = new EnvironmentMap();
+            map.environmentArrays = new EnvironmentArray[width];
 
-            for (int i = 0; i < cellsEnvironments.GetLength(0); i++)
+            for (int i = 0; i < map.environmentArrays.Length; i++)
             {
-                for (int u = 0; u < cellsEnvironments.GetLength(1); u++)
+                map.environmentArrays[i] = new EnvironmentArray();
+                map.environmentArrays[i].environments = new Environment[height];
+
+                for (int u = 0; u < map.environmentArrays[i].environments.Length; u++)
                 {
-                    cellsEnvironments[i, u] = new Environment();
+                    map.environmentArrays[i].environments[u] = new Environment();
                 }
             }
         }

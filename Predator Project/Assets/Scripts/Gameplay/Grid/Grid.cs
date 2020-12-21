@@ -18,7 +18,7 @@ namespace Predator
         public Transform cellsOrigin;
         public Vector3 originPosition { get => cellsOrigin.position; }
 
-        public Environment[,] cellsEnvironments { get => level.cellsEnvironments; }
+        public Environment[,] environments;
 
         public int width { get => level.width; }
         public int height { get => level.height; }
@@ -37,7 +37,26 @@ namespace Predator
 
         void Awake()
         {
+            GetLevelMap();
+
             CreateGrid();
+        }
+
+        public void GetLevelMap()
+        {
+            environments = new Environment[width, height];
+
+            EnvironmentMap levelMap = level.map;
+
+            for (int i = 0; i < environments.GetLength(0); i++)
+            {
+                EnvironmentArray levelArray = levelMap.environmentArrays[i];
+
+                for (int u = 0; u < environments.GetLength(1); u++)
+                {
+                    environments[i, u] = levelArray.environments[u];
+                }
+            }
         }
 
         #region Creation
@@ -66,7 +85,7 @@ namespace Predator
                     cellDisplay.transform.localPosition = position;
 
                     Cell cell = cellObject.GetComponent<Cell>();
-                    cell._environment = cellsEnvironments[x, y];
+                    cell._environment = environments[x, y];
                     cell._environmentDisplay = cellDisplay.GetComponent<Image>();
                     cell._actionDisplay = cellDisplay.transform.GetChild(0).GetComponent<Image>();
 

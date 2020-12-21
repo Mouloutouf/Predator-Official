@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Predator
 {
     [CreateAssetMenu(fileName = "New Environments File", menuName = "Scriptables/Environments")]
-    public class Environments : SerializedScriptableObject
+    public class EnvironmentDataTypes : SerializedScriptableObject
     {
         public Dictionary<EnvironmentType, Environment> environments = new Dictionary<EnvironmentType, Environment>();
     } 

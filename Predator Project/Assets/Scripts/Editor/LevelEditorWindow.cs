@@ -12,7 +12,7 @@ namespace Predator
 
         SerializedProperty serializedElements;
 
-        Environment[,] currentEnvironments;
+        EnvironmentMap environmentMap;
 
         EnvironmentType selectedType;
         Environment selectedEnvironment;
@@ -36,7 +36,7 @@ namespace Predator
 
             window.level = levelProfile;
 
-            window.currentEnvironments = window.level.cellsEnvironments;
+            window.environmentMap = window.level.map;
 
             //window.serializedElements = window.level.serializedObject.FindProperty(nameof(window.level.cellsEnvironments));
 
@@ -53,7 +53,7 @@ namespace Predator
                 return;
             }
 
-            if (level.cellsEnvironments.Length > 0)
+            if (level.map.environmentArrays.Length > 0)
             {
                 Buttons();
 
@@ -79,7 +79,7 @@ namespace Predator
             string message = levelSaved ? "Level was saved !" : "Save your modifications";
             if (GUILayout.Button("Save Level"))
             {
-                level.cellsEnvironments = currentEnvironments;
+                level.map = environmentMap;
                 levelSaved = true;
 
                 EditorUtility.SetDirty(level);
@@ -94,8 +94,8 @@ namespace Predator
             float tileWidth = 25f;
             float tileHeight = 25f;
 
-            int rowAmount = currentEnvironments.GetLength(0);
-            int columnAmount = currentEnvironments.GetLength(1);
+            int rowAmount = level.width;
+            int columnAmount = level.height;
 
             float extraOffset = 170f;
             float offset = 30f;
@@ -121,11 +121,11 @@ namespace Predator
 
                         if (isMousePressed)
                         {
-                            currentEnvironments[i, u] = selectedEnvironment;
+                            environmentMap.environmentArrays[i].environments[u] = selectedEnvironment;
                             levelSaved = false;
                         }
                     }
-                    else EditorGUI.DrawRect(squareRect, currentEnvironments[i, u].color);
+                    else EditorGUI.DrawRect(squareRect, environmentMap.environmentArrays[i].environments[u].color);
                 }
             }
         }

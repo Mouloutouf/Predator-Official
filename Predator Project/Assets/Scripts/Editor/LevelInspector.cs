@@ -5,38 +5,35 @@ using UnityEditor;
 
 namespace Predator
 {
-    //[CustomEditor(typeof(Level))]
+    [CustomEditor(typeof(Level))]
     public class LevelInspector : Editor
     {
         Level level;
 
-        SerializedProperty environmentsDataBase;
-        SerializedProperty environments;
+        SerializedProperty environmentDataBase;
+        SerializedProperty map;
 
         private void OnEnable()
         {
             level = target as Level;
 
-            environmentsDataBase = serializedObject.FindProperty(nameof(level.EnvironmentDataBase));
-            environments = serializedObject.FindProperty(nameof(level.cellsEnvironments));
+            environmentDataBase = serializedObject.FindProperty(nameof(level.EnvironmentDataBase));
+            map = serializedObject.FindProperty(nameof(level.map));
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(environmentsDataBase);
+            EditorGUILayout.PropertyField(environmentDataBase);
 
-            #region Dimensions
             EditorGUILayout.BeginHorizontal();
 
             level.width = EditorGUILayout.IntField(level.width);
             level.height = EditorGUILayout.IntField(level.height);
 
             EditorGUILayout.EndHorizontal();
-            #endregion
 
-            #region Level
             GUI.enabled = level.width > 0 ? level.height > 0 ? true : false : false;
 
             if (GUILayout.Button("Create Level"))
@@ -45,29 +42,14 @@ namespace Predator
             }
 
             GUI.enabled = true;
-            #endregion
 
-            #region Window
-            bool isLevel = level.cellsEnvironments != null ? true : false;
+            bool isLevel = level.map.environmentArrays != null ? true : false;
             GUI.enabled = isLevel;
 
             if (GUILayout.Button("Open Level Editor"))
                 LevelEditorWindow.InitWithContent(target as Level);
 
             GUI.enabled = true;
-            #endregion
-
-            EditorGUILayout.BeginVertical();
-
-            if (level.cellsEnvironments != null)
-            {
-                foreach (Environment environment in level.cellsEnvironments)
-                {
-                    EditorGUILayout.LabelField(environment.type.ToString());
-                }
-            }
-
-            EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }
