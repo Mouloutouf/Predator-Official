@@ -18,7 +18,7 @@ namespace Predator
         public Transform cellsOrigin;
         public Vector3 originPosition { get => cellsOrigin.position; }
 
-        public CellDefinition definition { get => level.definition; }
+        public Environment[,] cellsEnvironments { get => level.cellsEnvironments; }
 
         public int width { get => level.width; }
         public int height { get => level.height; }
@@ -28,7 +28,7 @@ namespace Predator
         public GameObject cellPrefab;
         public GameObject displayPrefab;
 
-        public CellBehaviour[,] cells { get; private set; }
+        public Cell[,] cells { get; private set; }
 
         void OnEnable()
         {
@@ -44,7 +44,7 @@ namespace Predator
         //[Button]
         public void CreateGrid()
         {
-            cells = new CellBehaviour[width, height];
+            cells = new Cell[width, height];
 
             levelCanvas.sizeDelta = new Vector2(width, height);
 
@@ -65,9 +65,10 @@ namespace Predator
                     cellDisplay.transform.parent = displayOrigin;
                     cellDisplay.transform.localPosition = position;
 
-                    CellBehaviour cell = cellObject.GetComponent<CellBehaviour>();
-                    cell._definition = definition;
-                    cell._display = cellDisplay.transform.GetChild(0).GetComponent<Image>();
+                    Cell cell = cellObject.GetComponent<Cell>();
+                    cell._environment = cellsEnvironments[x, y];
+                    cell._environmentDisplay = cellDisplay.GetComponent<Image>();
+                    cell._actionDisplay = cellDisplay.transform.GetChild(0).GetComponent<Image>();
 
                     cells[x, y] = cell;
                 }

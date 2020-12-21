@@ -11,6 +11,22 @@ namespace Predator
         public int width;
         public int height;
 
-        public CellDefinition definition;
+        public Environments EnvironmentDataBase;
+
+        public Environment[,] cellsEnvironments;
+
+        [ContextMenu("Initialize Level")]
+        public void InitializeLevel()
+        {
+            cellsEnvironments = new Environment[width, height];
+
+            for (int i = 0; i < cellsEnvironments.GetLength(0); i++)
+            {
+                for (int u = 0; u < cellsEnvironments.GetLength(1); u++)
+                {
+                    cellsEnvironments[i, u] = new Environment();
+                }
+            }
+        }
     } 
 }

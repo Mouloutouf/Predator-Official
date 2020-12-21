@@ -25,7 +25,7 @@ namespace Predator
 
                         if (distance <= maxDistance)
                         {
-                            CellBehaviour cell = grid.cells[x, y];
+                            Cell cell = grid.cells[x, y];
 
                             if (cell.enemy == null) cell.SetToActionArea(cell.moveAreaColor);
                         }
@@ -50,9 +50,9 @@ namespace Predator
 
                 grid.cells[x, y].player = player;
 
-                foreach (CellBehaviour _cell in grid.cells)
+                foreach (Cell _cell in grid.cells)
                 {
-                    _cell._display.color = Color.white;
+                    _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.color);
                 }
 
                 player.currentPoints--;

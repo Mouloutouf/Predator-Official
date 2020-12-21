@@ -20,7 +20,7 @@ namespace Predator
                 {
                     if (x >= 0 && y >= 0 && x < grid.width && y < grid.height)
                     {
-                        CellBehaviour cell = grid.cells[x, y];
+                        Cell cell = grid.cells[x, y];
 
                         cell.SetToActionArea(cell.attackAreaColor);
                     }
@@ -32,7 +32,7 @@ namespace Predator
 
         public override void Execute(int x, int y)
         {
-            CellBehaviour cell = grid.cells[x, y];
+            Cell cell = grid.cells[x, y];
 
             player.GetPlayerPosition(out int pX, out int pY);
 
@@ -43,9 +43,9 @@ namespace Predator
                 cell.enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
                 cell.enemy.Die();
                 
-                foreach (CellBehaviour _cell in grid.cells)
+                foreach (Cell _cell in grid.cells)
                 {
-                    _cell._display.color = Color.white;
+                    _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.color);
                 }
 
                 player.currentPoints--;

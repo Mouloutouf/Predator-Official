@@ -18,7 +18,7 @@ namespace Predator
         public Image hoverDisplay;
         public Image selectDisplay;
 
-        private CellBehaviour selectedCell;
+        private Cell selectedCell;
 
         public PlayerManager player;
 
@@ -64,9 +64,9 @@ namespace Predator
             clickAction_ = SelectCell;
             hoverDisplay.color = Color.white;
 
-            foreach (CellBehaviour _cell in grid.cells)
+            foreach (Cell _cell in grid.cells)
             {
-                _cell._display.color = Color.white;
+                _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.color);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Predator
 
         public void HoverCell(int x, int y)
         {
-            CellBehaviour hoverCell = grid.cells[x, y];
+            Cell hoverCell = grid.cells[x, y];
 
             hoverDisplay.transform.position = hoverCell.transform.position;
         }

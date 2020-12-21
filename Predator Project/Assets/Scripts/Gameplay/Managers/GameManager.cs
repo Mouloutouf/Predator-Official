@@ -8,13 +8,13 @@ namespace Predator
     {
         public InputManager inputManager;
 
-        private bool iat;
+        private bool turn;
         public bool isActiveTurn
         {
-            get => iat;
+            get => turn;
 
             private set {
-                iat = value;
+                turn = value;
                 if (value == true)
                 {
                     inputManager.inputActive = true;
