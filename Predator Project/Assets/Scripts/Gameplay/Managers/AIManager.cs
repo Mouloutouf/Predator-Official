@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Predator
@@ -15,7 +16,7 @@ namespace Predator
 
         public Transform aIInterface;
 
-        public List<EnemyManager> enemies = new List<EnemyManager>();
+        public static List<EnemyManager> enemies = new List<EnemyManager>();
 
         void Start()
         {

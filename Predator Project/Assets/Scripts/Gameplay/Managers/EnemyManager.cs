@@ -11,6 +11,9 @@ namespace Predator
 
         public float energyAmount;
 
+        void OnEnable() => AIManager.enemies.Add(this);
+        void OnDisable() => AIManager.enemies.Remove(this);
+
         public void GetEnemyPosition(out int x, out int y)
         {
             Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);

@@ -35,7 +35,14 @@ namespace Predator
             if (instance == null) instance = this;
         }
 
-        void Awake()
+        private void Awake()
+        {
+            CreateLevel();
+        }
+
+        #region Creation
+        //[Button("Create")]
+        public void CreateLevel()
         {
             GetLevelMap();
 
@@ -59,8 +66,6 @@ namespace Predator
             }
         }
 
-        #region Creation
-        //[Button]
         public void CreateGrid()
         {
             cells = new Cell[width, height];
@@ -81,7 +86,7 @@ namespace Predator
                     cellObject.transform.localPosition = position;
 
                     GameObject cellDisplay = Instantiate(displayPrefab);
-                    cellDisplay.transform.parent = displayOrigin;
+                    cellDisplay.transform.SetParent(displayOrigin);
                     cellDisplay.transform.localPosition = position;
 
                     Cell cell = cellObject.GetComponent<Cell>();
