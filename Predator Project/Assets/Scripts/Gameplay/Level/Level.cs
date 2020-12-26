@@ -26,7 +26,11 @@ namespace Predator
 
         public EnvironmentMap map { get; set; }
 
-        [ContextMenu("Initialize Level")]
+        void OnEnable()
+        {
+            if (map == null) InitializeLevel();
+        }
+
         public void InitializeLevel()
         {
             map = new EnvironmentMap();

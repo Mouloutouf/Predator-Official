@@ -2,47 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Predator
 {
-    public enum ActionType { Move, StealthKill, Heal }
-
-    [System.Serializable]
-    public class ActionEvent : UnityEvent<ActionType> { }
-
-    public abstract class Action : MonoBehaviour
-    {
-        public Toggle actionToggle;
-
-        public ActionType actionType;
-
-        public Color actionColor;
-
-        public float energyCost;
-
-        void Start()
-        {
-            grid = Grid.instance;
-        }
-
-        public virtual void EnableAction(bool activate)
-        {
-            if (activate) inputManager.ChangeAction(actionType);
-
-            else inputManager.ResetAction();
-        }
-
-        public PlayerManager player;
-
-        public InputManager inputManager;
-
-        public Grid grid { get; set; }
-
-        public abstract void Execute(int x, int y);
-    }
-
     public class PlayerManager : SerializedMonoBehaviour
     {
         public GameManager gameManager;
@@ -53,23 +16,38 @@ namespace Predator
         public Slider energySlider;
 
         [SerializeField] private float health;
-        private float ch;
-        public float currentHealth { get => ch; set { ch = value; healthSlider.value = value; } }
+        private float _currentHealth; public float _CurrentHealth { get => _currentHealth; set { _currentHealth = value; healthSlider.value = value; } }
 
         [SerializeField] private float maxEnergy;
         [SerializeField] private float startEnergy;
-        private float ce;
-        public float currentEnergy { get => ce; set { ce = Mathf.Clamp(value, 0, startEnergy); energySlider.value = value; } }
+        private float _currentEnergy; public float _CurrentEnergy 
+        {
+            get => _currentEnergy;
+            set {
+                _currentEnergy = Mathf.Clamp(value, 0, startEnergy);
+                energySlider.value = value;
+            }
+        }
 
         public Text actionDisplayText;
 
         [SerializeField] private int actionPoints;
-        private int cp;
-        public int currentPoints { get => cp; set { cp = value; actionDisplayText.text = value.ToString(); if (value <= 0) gameManager.ChangeTurn(); } }
+        private int _currentPoints; public int _CurrentPoints
+        {
+            get => _currentPoints;
+            set {
+                _currentPoints = value;
+                actionDisplayText.text = value.ToString();
+                if (value <= 0) gameManager.ChangeTurn();
+            }
+        }
 
         public Image playerDisplay;
+        public Color visibleColor, hiddenColor;
 
         public Dictionary<ActionType, Action> actions = new Dictionary<ActionType, Action>();
+
+        public Cell playerCell { get; set; }
 
         public void GetPlayerPosition(out int x, out int y)
         {
@@ -78,25 +56,39 @@ namespace Predator
 
         void Start()
         {
-            Grid.instance.cells[0, 0].player = this;
+            StartPlayer();
 
+            SetPlayerTurn();
+
+            SetPlayerCell();
+        }
+
+        private void StartPlayer()
+        {
             healthSlider.maxValue = health;
             energySlider.maxValue = maxEnergy;
             energySlider.value = startEnergy;
 
-            currentHealth = health;
-            currentEnergy = startEnergy;
-            SetPlayerTurn();
+            _CurrentHealth = health;
+            _CurrentEnergy = startEnergy;
         }
 
         public void SetPlayerTurn()
         {
-            currentPoints = actionPoints;
+            _CurrentPoints = actionPoints;
 
-            foreach (Action action in actions.Values)
-            {
-                action.actionToggle.isOn = false;
-            }
+            foreach (Action action in actions.Values) action.actionToggle.isOn = false;
+        }
+
+        public void SetPlayerCell()
+        {
+            if (playerCell != null) playerCell._player = null;
+
+            GetPlayerPosition(out int _x, out int _y);
+            playerCell = Grid.instance._cells[_x, _y];
+            playerCell._player = this;
+
+            playerDisplay.color = playerCell._environment.Visible == true ? visibleColor : hiddenColor;
         }
     } 
 }

@@ -10,76 +10,78 @@ namespace Predator
     {
         public static Grid instance;
 
-        public Level level;
+        [SerializeField] private Level level;
 
-        public RectTransform levelCanvas;
+        [SerializeField] private RectTransform levelCanvas;
 
-        public RectTransform displayOrigin;
-        public Transform cellsOrigin;
-        public Vector3 originPosition { get => cellsOrigin.position; }
+        [SerializeField] private RectTransform displayOrigin;
+        [SerializeField] private Transform cellsOrigin;
+        public Vector3 OriginPosition { get => cellsOrigin.position; }
 
-        public Environment[,] environments;
+        public Environment[,] _environments { get; private set; }
 
-        public int width { get => level.width; }
-        public int height { get => level.height; }
+        public int _width { get => level.width; }
+        public int _height { get => level.height; }
 
         public const float cellSize = 1;
 
-        public GameObject cellPrefab;
-        public GameObject displayPrefab;
+        [SerializeField] private GameObject cellPrefab;
+        [SerializeField] private GameObject displayPrefab;
 
-        public Cell[,] cells { get; private set; }
+        public Cell[,] _cells { get; private set; }
 
         void OnEnable()
         {
             if (instance == null) instance = this;
         }
 
-        private void Awake()
+        void Awake()
         {
             CreateLevel();
         }
 
         #region Creation
-        //[Button("Create")]
-        public void CreateLevel()
+        private void CreateLevel()
         {
             GetLevelMap();
 
             CreateGrid();
         }
 
-        public void GetLevelMap()
+        private void GetLevelMap()
         {
-            environments = new Environment[width, height];
+            _environments = new Environment[_width, _height];
 
             EnvironmentMap levelMap = level.map;
 
-            for (int i = 0; i < environments.GetLength(0); i++)
+            for (int i = 0; i < _environments.GetLength(0); i++)
             {
                 EnvironmentArray levelArray = levelMap.environmentArrays[i];
 
-                for (int u = 0; u < environments.GetLength(1); u++)
+                List<Environment> orderedEnvironments = new List<Environment>();
+                foreach (Environment environment in levelArray.environments) orderedEnvironments.Add(environment);
+                orderedEnvironments.Reverse();
+
+                for (int u = 0; u < _environments.GetLength(1); u++)
                 {
-                    environments[i, u] = levelArray.environments[u];
+                    _environments[i, u] = orderedEnvironments[u];
                 }
             }
         }
 
-        public void CreateGrid()
+        private void CreateGrid()
         {
-            cells = new Cell[width, height];
+            _cells = new Cell[_width, _height];
 
-            levelCanvas.sizeDelta = new Vector2(width, height);
+            levelCanvas.sizeDelta = new Vector2(_width, _height);
 
             cellsOrigin.position = displayOrigin.transform.position;
 
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < _height; y++)
                 {
-                    Vector3 position;
-                    ConvertCoordinatesToLocalPosition(x, y, out position);
+                    ConvertCoordinatesToLocalPosition(x, y, out Vector3 position);
 
                     GameObject cellObject = Instantiate(cellPrefab);
                     cellObject.transform.parent = cellsOrigin;
@@ -90,11 +92,11 @@ namespace Predator
                     cellDisplay.transform.localPosition = position;
 
                     Cell cell = cellObject.GetComponent<Cell>();
-                    cell._environment = environments[x, y];
+                    cell._environment = _environments[x, y];
                     cell._environmentDisplay = cellDisplay.GetComponent<Image>();
                     cell._actionDisplay = cellDisplay.transform.GetChild(0).GetComponent<Image>();
 
-                    cells[x, y] = cell;
+                    _cells[x, y] = cell;
                 }
             }
         }
@@ -103,7 +105,7 @@ namespace Predator
         #region Conversion
         public void ConvertWorldPositionToGrid(Vector3 worldPosition, out int x, out int y)
         {
-            ConvertLocalPositionToGrid(worldPosition - originPosition, out x, out y);
+            ConvertLocalPositionToGrid(worldPosition - OriginPosition, out x, out y);
         }
 
         public void ConvertLocalPositionToGrid(Vector3 localPosition, out int x, out int y)
@@ -116,7 +118,7 @@ namespace Predator
         {
             ConvertCoordinatesToLocalPosition(x, y, out worldPosition);
 
-            worldPosition += originPosition;
+            worldPosition += OriginPosition;
         }
 
         public void ConvertCoordinatesToLocalPosition(int x, int y, out Vector3 localPosition)
@@ -126,6 +128,13 @@ namespace Predator
 
             localPosition = new Vector3(_x, _y);
         }
+        #endregion
+
+        #region Utility
+        public bool IsInsideGrid(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < _width && y < _height;
+        } 
         #endregion
     } 
 }

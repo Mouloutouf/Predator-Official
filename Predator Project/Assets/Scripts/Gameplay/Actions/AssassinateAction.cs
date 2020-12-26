@@ -6,55 +6,30 @@ namespace Predator
 {
     public class AssassinateAction : Action
     {
-        public int range;
+        protected override ActionType actionType { get; set; } = ActionType.StealthKill;
 
-        public override void EnableAction(bool active)
+        protected override void EnableAt(int x, int y)
         {
-            inputManager.hoverDisplay.color = actionColor;
+            Cell cell = grid._cells[x, y];
+            cell.SetToActionArea(actionColor);
 
-            player.GetPlayerPosition(out int pX, out int pY);
-
-            for (int x = pX - range; x <= pX + range; x++)
+            if (cell._enemy != null)
             {
-                for (int y = pY - range; y <= pY + range; y++)
-                {
-                    if (x >= 0 && y >= 0 && x < grid.width && y < grid.height)
-                    {
-                        Cell cell = grid.cells[x, y];
-
-                        cell.SetToActionArea(cell.attackAreaColor);
-                    }
-                }
+                enabledCells.Add(cell);
             }
-
-            base.EnableAction(active);
         }
 
-        public override void Execute(int x, int y)
+        protected override void ExecuteAt(int x, int y)
         {
-            Cell cell = grid.cells[x, y];
+            // Kill and drag the enemy's body
+            selectedCell._enemy.Die();
+            selectedCell._enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
 
-            player.GetPlayerPosition(out int pX, out int pY);
+            // Drains the enemy's energy
+            player._CurrentEnergy += selectedCell._enemy.energyAmount;
 
-            bool inRange = x >= pX - range && y >= pY - range && x <= pX + range && y <= pY + range;
-
-            if (cell.enemy != null && inRange)
-            {
-                cell.enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
-                cell.enemy.Die();
-                
-                foreach (Cell _cell in grid.cells)
-                {
-                    _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.color);
-                }
-
-                player.currentPoints--;
-                player.currentEnergy += cell.enemy.energyAmount;
-
-                cell.enemy = null;
-
-                if (player.currentPoints > 0) EnableAction(true);
-            }
+            // Removes the cell's enemy content
+            selectedCell._enemy = null;
         }
     } 
 }

@@ -9,13 +9,8 @@ namespace Predator
     [System.Serializable]
     public class Environment
     {
-        public EnvironmentType type;
-
-        public Color color = Color.white;
-
-        public bool visible;
-        public bool noise;
-        public bool path;
-        public bool traces;
+        [SerializeField] private EnvironmentType type; public EnvironmentType Type { get => type; private set => type = value; }
+        [SerializeField] private Color color = Color.white; public Color Color { get => color; private set => color = value; }
+        [SerializeField] private bool visible; public bool Visible { get => visible; private set => visible = value; }
     } 
 }

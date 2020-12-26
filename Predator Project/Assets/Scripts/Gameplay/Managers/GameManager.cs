@@ -6,53 +6,42 @@ namespace Predator
 {
     public class GameManager : MonoBehaviour
     {
-        public InputManager inputManager;
-
-        private bool turn;
-        public bool isActiveTurn
+        private bool _playerTurn; public bool _PlayerTurn
         {
-            get => turn;
-
+            get => _playerTurn;
             private set {
-                turn = value;
-                if (value == true)
-                {
-                    inputManager.inputActive = true;
-                    aIManager.aIIsActive = false;
-
+                _playerTurn = value;
+                // Player Turn
+                if (value == true) {
+                    SwitchTurn(true);
                     playerManager.SetPlayerTurn();
-
-                    playerInterface.gameObject.SetActive(true);
-                    aIInterface.gameObject.SetActive(false);
                 }
-                else
-                {
-                    inputManager.inputActive = false;
-                    aIManager.aIIsActive = true;
-
+                // AI Turn
+                else {
+                    SwitchTurn(false);
                     aIManager.SetAITurn();
-
-                    playerInterface.gameObject.SetActive(false);
-                    aIInterface.gameObject.SetActive(true);
                 }
                 inputManager.ResetAction();
             }
         }
+        private void SwitchTurn(bool playerTurn)
+        {
+            inputManager.inputActive = playerTurn;
+            aIManager.aIIsActive = !playerTurn;
 
-        public PlayerManager playerManager;
-        public AIManager aIManager;
+            _playerInterface.gameObject.SetActive(playerTurn);
+            _aIInterface.gameObject.SetActive(!playerTurn);
+        }
 
-        public Transform playerInterface { get => playerManager.playerInterface; }
-        public Transform aIInterface { get => aIManager.aIInterface; }
+        public InputManager inputManager;
+        public PlayerManager playerManager; public Transform _playerInterface { get => playerManager.playerInterface; }
+        public AIManager aIManager; public Transform _aIInterface { get => aIManager.aIInterface; }
 
         void Start()
         {
-            isActiveTurn = true;
+            _PlayerTurn = true;
         }
 
-        public void ChangeTurn()
-        {
-            isActiveTurn = !isActiveTurn;
-        }
+        public void ChangeTurn() => _PlayerTurn = !_PlayerTurn;
     } 
 }

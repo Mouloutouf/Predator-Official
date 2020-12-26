@@ -125,7 +125,7 @@ namespace Predator
                             levelSaved = false;
                         }
                     }
-                    else EditorGUI.DrawRect(squareRect, environmentMap.environmentArrays[i].environments[u].color);
+                    else EditorGUI.DrawRect(squareRect, environmentMap.environmentArrays[i].environments[u].Color);
                 }
             }
         }

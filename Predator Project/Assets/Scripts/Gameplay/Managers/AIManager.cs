@@ -24,7 +24,7 @@ namespace Predator
             {
                 enemy.GetEnemyPosition(out int eX, out int eY);
 
-                Grid.instance.cells[eX, eY].enemy = enemy;
+                Grid.instance._cells[eX, eY]._enemy = enemy;
             }
         }
 
@@ -41,9 +41,6 @@ namespace Predator
             }
         }
 
-        public void SetAITurn()
-        {
-            currentTime = waitTime;
-        }
+        public void SetAITurn() => currentTime = waitTime;
     } 
 }

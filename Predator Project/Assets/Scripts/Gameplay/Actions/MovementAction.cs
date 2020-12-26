@@ -6,60 +6,34 @@ namespace Predator
 {
     public class MovementAction : Action
     {
-        public int maxDistance;
+        protected override ActionType actionType { get; set; } = ActionType.Move;
 
-        public override void EnableAction(bool active)
+        protected override void EnableAt(int x, int y)
         {
-            inputManager.hoverDisplay.color = actionColor;
-
-            player.GetPlayerPosition(out int pX, out int pY);
-
-            for (int x = pX - maxDistance; x <= pX + maxDistance; x++)
-            {
-                for (int y = pY - maxDistance; y <= pY + maxDistance; y++)
-                {
-                    if (x >= 0 && y >= 0 && x < grid.width && y < grid.height)
-                    {
-                        Vector3 destination = new Vector3(x, y) - new Vector3(pX, pY);
-                        int distance = (int)(Mathf.Abs(destination.x) + Mathf.Abs(destination.y));
-
-                        if (distance <= maxDistance)
-                        {
-                            Cell cell = grid.cells[x, y];
-
-                            if (cell.enemy == null) cell.SetToActionArea(cell.moveAreaColor);
-                        }
-                    }
-                }
-            }
-
-            base.EnableAction(active);
-        }
-
-        public override void Execute(int x, int y)
-        {
-            player.GetPlayerPosition(out int pX, out int pY);
             Vector3 destination = new Vector3(x, y) - new Vector3(pX, pY);
             int distance = (int)(Mathf.Abs(destination.x) + Mathf.Abs(destination.y));
 
-            if (distance <= maxDistance)
+            if (distance <= range)
             {
-                grid.cells[pX, pY].player = null;
-
-                player.playerDisplay.transform.position = grid.cells[x, y].transform.position;
-
-                grid.cells[x, y].player = player;
-
-                foreach (Cell _cell in grid.cells)
+                Cell cell = grid._cells[x, y];
+                if (cell._enemy == null)
                 {
-                    _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.color);
+                    cell.SetToActionArea(actionColor);
+                    enabledCells.Add(cell);
                 }
-
-                player.currentPoints--;
-                player.currentEnergy -= energyCost;
-
-                if (player.currentPoints > 0) EnableAction(true);
             }
+        }
+
+        protected override void ExecuteAt(int x, int y)
+        {
+            // Player movement
+            player.playerDisplay.transform.position = grid._cells[x, y].transform.position;
+
+            // Changes the cells player contents
+            player.SetPlayerCell();
+
+            // Removes a certain amount of energy
+            player._CurrentEnergy -= energyCost;
         }
     } 
 }

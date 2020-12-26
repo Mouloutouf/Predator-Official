@@ -14,16 +14,13 @@ namespace Predator
         public Image _environmentDisplay { get; set; }
         public Image _actionDisplay { get; set; }
 
-        public Color moveAreaColor;
-        public Color attackAreaColor;
-
-        public EnemyManager enemy { get; set; }
-        public PlayerManager player { get; set; }
+        public EnemyManager _enemy { get; set; }
+        public PlayerManager _player { get; set; }
 
         void Start()
         {
-            _environmentDisplay.color = _environment.color;
-            _actionDisplay.color = ChangeActionDisplay(_environment.color);
+            _environmentDisplay.color = _environment.Color;
+            _actionDisplay.color = ChangeActionDisplay(_environment.Color);
         }
 
         public void SetToActionArea(Color color)

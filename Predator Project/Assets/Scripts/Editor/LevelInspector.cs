@@ -10,12 +10,17 @@ namespace Predator
     {
         Level level;
 
+        int inputWidth, inputHeight;
+
         SerializedProperty environmentDataBase;
         SerializedProperty map;
 
         private void OnEnable()
         {
             level = target as Level;
+
+            inputWidth = level.width;
+            inputHeight = level.height;
 
             environmentDataBase = serializedObject.FindProperty(nameof(level.EnvironmentDataBase));
             map = serializedObject.FindProperty(nameof(level.map));
@@ -29,26 +34,32 @@ namespace Predator
 
             EditorGUILayout.BeginHorizontal();
 
-            level.width = EditorGUILayout.IntField(level.width);
-            level.height = EditorGUILayout.IntField(level.height);
+            inputWidth = EditorGUILayout.IntField(inputWidth);
+            inputHeight = EditorGUILayout.IntField(inputHeight);
 
             EditorGUILayout.EndHorizontal();
 
-            GUI.enabled = level.width > 0 ? level.height > 0 ? true : false : false;
+            bool hasEnvironmentData = level.EnvironmentDataBase != null;
 
-            if (GUILayout.Button("Create Level"))
+            bool hasChangedSize = inputWidth != level.width || inputHeight != level.height;
+            bool hasMinimumSize = inputWidth > 0 && inputHeight > 0;
+            GUI.enabled = hasMinimumSize && hasChangedSize && hasEnvironmentData;
+
+            if (GUILayout.Button("Create New Level"))
             {
+                level.width = inputWidth;
+                level.height = inputHeight;
                 level.InitializeLevel();
             }
-
             GUI.enabled = true;
 
-            bool isLevel = level.map.environmentArrays != null ? true : false;
-            GUI.enabled = isLevel;
+            bool hasInitializedLevel = level.map.environmentArrays != null;
+            GUI.enabled = hasInitializedLevel && hasEnvironmentData;
 
             if (GUILayout.Button("Open Level Editor"))
+            {
                 LevelEditorWindow.InitWithContent(target as Level);
-
+            }
             GUI.enabled = true;
 
             serializedObject.ApplyModifiedProperties();

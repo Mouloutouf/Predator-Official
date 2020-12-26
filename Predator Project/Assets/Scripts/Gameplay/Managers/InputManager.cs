@@ -45,15 +45,15 @@ namespace Predator
                 if (Input.GetMouseButtonDown(1))
                 {
                     //grid.GetInfoOnTile();
-                } 
+                }
             }
         }
 
-        public void Action(Vector2 worldPosition, _Action_ action_)
+        private void Action(Vector2 worldPosition, _Action_ action_)
         {
             grid.ConvertWorldPositionToGrid(worldPosition, out int x, out int y);
 
-            if (x >= 0 && y >= 0 && x < grid.width && y < grid.height)
+            if (x >= 0 && y >= 0 && x < grid._width && y < grid._height)
             {
                 action_(x, y);
             }
@@ -64,56 +64,28 @@ namespace Predator
             clickAction_ = SelectCell;
             hoverDisplay.color = Color.white;
 
-            foreach (Cell _cell in grid.cells)
-            {
-                _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.color);
-            }
+            foreach (Cell _cell in grid._cells) _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
         }
 
         public void ChangeAction(ActionType actionType)
         {
             selectDisplay.gameObject.SetActive(false);
-            clickAction_ = actions[actionType].Execute;
+            clickAction_ = actions[actionType].ExecuteAction;
         }
 
-        public void HoverCell(int x, int y)
+        private void HoverCell(int x, int y)
         {
-            Cell hoverCell = grid.cells[x, y];
+            Cell hoverCell = grid._cells[x, y];
 
             hoverDisplay.transform.position = hoverCell.transform.position;
         }
 
-        public void SelectCell(int x, int y)
+        private void SelectCell(int x, int y)
         {
-            selectedCell = grid.cells[x, y];
+            selectedCell = grid._cells[x, y];
 
             selectDisplay.gameObject.SetActive(true);
             selectDisplay.transform.position = selectedCell.transform.position;
         }
-
-        //public void MoveToTile(int x, int y)
-        //{
-        //    player.position = grid.cells[x, y].transform.position;
-        //}
-
-        //public void SetTilesToAction(Vector3 playerPosition, int area)
-        //{
-        //    int x, y;
-        //    ConvertPositionToGridCoordinates(playerPosition, out x, out y);
-
-        //    int minX, minY, maxX, maxY;
-        //    minX = Mathf.Clamp(x - area, 0, width);
-        //    maxX = Mathf.Clamp(x + area, 0, width);
-        //    minY = Mathf.Clamp(y - area, 0, height);
-        //    maxY = Mathf.Clamp(y + area, 0, height);
-
-        //    for (int _x = 0; _x < width; _x++)
-        //    {
-        //        for (int _y = 0; _y < height; _y++)
-        //        {
-        //            cells[_x, _y].inActionArea = (_x >= minX && _y >= minY && _x < maxX && _y < maxY) ? true : false;
-        //        }
-        //    }
-        //}
     } 
 }
