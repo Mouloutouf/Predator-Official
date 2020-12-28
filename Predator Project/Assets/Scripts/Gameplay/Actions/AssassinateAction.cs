@@ -21,15 +21,19 @@ namespace Predator
 
         protected override void ExecuteAt(int x, int y)
         {
-            // Kill and drag the enemy's body
-            selectedCell._enemy.Die();
-            selectedCell._enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
+            EnemyManager enemy = selectedCell._enemy;
+
+            // Kill the enemy
+            enemy.Die();
+
+            // Drag the enemy's body and changes the cells enemy contents
+            enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
+            player.GetPlayerPosition(out int _pX, out int _pY);
+            grid._cells[_pX, _pY]._enemy = enemy;
+            selectedCell._enemy = null;
 
             // Drains the enemy's energy
-            player._CurrentEnergy += selectedCell._enemy.energyAmount;
-
-            // Removes the cell's enemy content
-            selectedCell._enemy = null;
+            player._CurrentEnergy += enemy.energyAmount;
         }
     } 
 }
