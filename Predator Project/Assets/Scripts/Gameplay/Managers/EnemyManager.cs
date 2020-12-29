@@ -20,9 +20,15 @@ namespace Predator
 
         public Status status { get; set; }
 
+        public Orientations orientation;
+
+        public DetectionBehavior detectionBehavior;
+
         void Start()
         {
             status = Status.Normal;
+
+            detectionBehavior.Initialize(this);
         }
 
         public void GetEnemyPosition(out int x, out int y)

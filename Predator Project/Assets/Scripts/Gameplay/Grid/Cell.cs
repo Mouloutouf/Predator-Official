@@ -13,7 +13,7 @@ namespace Predator
 
         public Image _environmentDisplay { get; set; }
         public Image _actionDisplay { get; set; }
-
+        // I was doing the display thing for the detection
         public EnemyManager _enemy { get; set; }
         public PlayerManager _player { get; set; }
 

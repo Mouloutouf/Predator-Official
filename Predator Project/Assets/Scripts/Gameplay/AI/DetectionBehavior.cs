@@ -6,105 +6,101 @@ namespace Predator
 {
     public class DetectionBehavior : MonoBehaviour
     {
-        public EnemyManager enemy;
+        public EnemyManager Enemy { get; set; }
         private int eX, eY;
 
         public List<Cell> DetectedCells { get; set; } = new List<Cell>();
         public List<Cell> ObstructedCells { get; set; } = new List<Cell>();
 
-        public Orientations Orientation { get; set; }
+        public Orientations Orientation { get => Enemy.orientation; }
 
-        public int range;
+        public int maxDepth;
 
-        public void OnEnemyMove()
+        public void Initialize(EnemyManager enemy)
         {
-            enemy.GetEnemyPosition(out eX, out eY);
+            Enemy = enemy;
+
+            CreateDetectionArea();
+        }
+
+        public void CreateDetectionArea()
+        {
+            Enemy.GetEnemyPosition(out eX, out eY);
 
             DetectedCells.Clear();
-            DetectionArea();
 
-            DetectionCheck();
+            int visionLayer = Orientation == Orientations.Up || Orientation == Orientations.Right ? 1 : -1;
+            int[] visionZone = new int[3] { -1, 0, 1 };
+
+            CheckCellsAtVisionArea(eX, eY, visionLayer, visionZone, 1, false);
         }
 
-        void DetectionArea()
-        {
-            int x = eX;
-            int y = eY;
-
-            int layer = Orientation == Orientations.Up || Orientation == Orientations.Right ? 1 : -1;
-            int[] zone = new int[3] { -1, 0, 1 };
-
-            GetDetectedCells(x, y, layer, zone, 1);
-        }
-
-        private void GetDetectedCells(int _x, int _y, int layer, int[] zone, int recursion)
+        private void CheckCellsAtVisionArea(int _x, int _y, int visionLayer, int[] visionZone, int depth, bool obstacle)
         {
             int a, b, B;
             if (Orientation == Orientations.Right || Orientation == Orientations.Left) { a = _x; b = _y; }
             else { a = _y; b = _x; }
 
-            a += layer;
+            a += visionLayer;
             B = b;
 
-            for (int u = 0; u < zone.Length; u++)
+            for (int u = 0; u < visionZone.Length; u++)
             {
-                b = B + zone[u];
+                b = B + visionZone[u];
 
-                Cell _cell;
-                if (Orientation == Orientations.Right || Orientation == Orientations.Left) _cell = Grid.instance._cells[a, b];
-                else _cell = Grid.instance._cells[b, a];
+                if (Orientation == Orientations.Right || Orientation == Orientations.Left) { _x = a; _y = b; }
+                else { _x = b; _y = a; }
 
-
-                if (_cell._environment.Visible)
+                if (Grid.instance.IsInsideGrid(_x, _y))
                 {
-                    if (!ObstructedCells.Contains(_cell))
-                    {
-                        DetectedCells.Add(_cell);
+                    Cell _cell = Grid.instance._cells[_x, _y];
 
-                        if (recursion < range)
-                        {
-                            recursion++;
-                            GetDetectedCells(_x, _y, layer, zone, recursion);
-                        }
+                    if (obstacle) depth = RemoveObstructedCell(_x, _y, visionLayer, visionZone, depth, _cell);
+                    
+                    else depth = AddVisibleCell(_x, _y, visionLayer, visionZone, depth, _cell);
+                }
+            }
+        }
+
+        private int AddVisibleCell(int _x, int _y, int visionLayer, int[] visionZone, int depth, Cell _cell)
+        {
+            if (_cell._environment.Visible)
+            {
+                if (!ObstructedCells.Contains(_cell))
+                {
+                    DetectedCells.Add(_cell);
+
+                    if (depth < maxDepth)
+                    {
+                        depth++;
+                        CheckCellsAtVisionArea(_x, _y, visionLayer, visionZone, depth, false);
                     }
                 }
-                else // Obstacle
-                {
-                    RemoveObstructedCells(_x, _y, layer, zone, recursion);
-                }
             }
+            else // Obstacle
+            {
+                CheckCellsAtVisionArea(_x, _y, visionLayer, visionZone, depth, true);
+            }
+
+            return depth;
         }
 
-        private void RemoveObstructedCells(int _x, int _y, int layer, int[] zone, int recursion)
+        private int RemoveObstructedCell(int _x, int _y, int visionLayer, int[] visionZone, int depth, Cell _cell)
         {
-            int a, b, B;
-            if (Orientation == Orientations.Right || Orientation == Orientations.Left) { a = _x; b = _y; }
-            else { a = _y; b = _x; }
+            ObstructedCells.Add(_cell);
 
-            a += layer;
-            B = b;
-
-            for (int u = 0; u < zone.Length; u++)
+            if (DetectedCells.Contains(_cell))
             {
-                b = B + zone[u];
-
-                Cell _cell;
-                if (Orientation == Orientations.Right || Orientation == Orientations.Left) _cell = Grid.instance._cells[a, b];
-                else _cell = Grid.instance._cells[b, a];
-
-                ObstructedCells.Add(_cell);
-
-                if (DetectedCells.Contains(_cell))
-                {
-                    DetectedCells.Remove(_cell);
-                }
-
-                if (recursion < range)
-                {
-                    recursion++;
-                    RemoveObstructedCells(_x, _y, layer, zone, recursion);
-                }
+                DetectedCells.Remove(_cell);
             }
+
+            if (depth < maxDepth)
+            {
+                depth++;
+                CheckCellsAtVisionArea(_x, _y, visionLayer, visionZone, depth, true);
+            }
+
+            return depth;
         }
 
         public void DetectionCheck()
