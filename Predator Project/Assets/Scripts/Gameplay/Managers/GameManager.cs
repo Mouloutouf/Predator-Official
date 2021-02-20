@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Predator
 {
     public class GameManager : MonoBehaviour
     {
+        public InputManager inputManager;
+        public PlayerManager playerManager; public Transform _playerInterface { get => playerManager.playerInterface; }
+        public AIManager aIManager; public Transform _aIInterface { get => aIManager.aIInterface; }
+
+        public Transform gameOverInterface;
+
         private bool _playerTurn; public bool _PlayerTurn
         {
             get => _playerTurn;
@@ -33,15 +40,32 @@ namespace Predator
             _aIInterface.gameObject.SetActive(!playerTurn);
         }
 
-        public InputManager inputManager;
-        public PlayerManager playerManager; public Transform _playerInterface { get => playerManager.playerInterface; }
-        public AIManager aIManager; public Transform _aIInterface { get => aIManager.aIInterface; }
+        public void ChangeTurn() => _PlayerTurn = !_PlayerTurn;
 
         void Start()
         {
             _PlayerTurn = true;
         }
 
-        public void ChangeTurn() => _PlayerTurn = !_PlayerTurn;
+        public void GameOver()
+        {
+            gameOverInterface.gameObject.SetActive(true);
+
+            inputManager.inputActive = false;
+            aIManager.aIIsActive = false;
+        }
+
+        public void StartGame()
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        public void CheckAtEachAction()
+        {
+            foreach (EnemyManager enemy in AIManager.enemies)
+            {
+                if (enemy.detectionBehavior != null) enemy.detectionBehavior.DetectionCheck();
+            }
+        }
     } 
 }

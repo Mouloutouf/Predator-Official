@@ -26,6 +26,7 @@ namespace Predator
             set {
                 _currentEnergy = Mathf.Clamp(value, 0, startEnergy);
                 energySlider.value = value;
+                if (value <= 0) gameManager.GameOver();
             }
         }
 
@@ -38,6 +39,7 @@ namespace Predator
             set {
                 _currentPoints = value;
                 actionDisplayText.text = value.ToString();
+                gameManager.CheckAtEachAction();
                 if (value <= 0) gameManager.ChangeTurn();
             }
         }

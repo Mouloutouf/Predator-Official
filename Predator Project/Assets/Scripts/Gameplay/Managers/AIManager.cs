@@ -22,6 +22,8 @@ namespace Predator
         {
             foreach (EnemyManager enemy in enemies)
             {
+                enemy.gameManager = gameManager;
+
                 enemy.GetEnemyPosition(out int eX, out int eY);
 
                 Grid.instance._cells[eX, eY]._enemy = enemy;

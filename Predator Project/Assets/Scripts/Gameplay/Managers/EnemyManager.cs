@@ -9,8 +9,15 @@ namespace Predator
 
     public enum Orientations { Up, Right, Down, Left }
 
+    public interface IBehavior
+    {
+
+    }
+
     public class EnemyManager : MonoBehaviour
     {
+        public GameManager gameManager { get; set; }
+
         public Image enemyDisplay;
 
         public float energyAmount;
@@ -28,12 +35,35 @@ namespace Predator
         {
             status = Status.Normal;
 
-            detectionBehavior.Initialize(this);
+            if (detectionBehavior != null) detectionBehavior.Initialize();
         }
 
         public void GetEnemyPosition(out int x, out int y)
         {
             Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);
+        }
+
+        private void Do()
+        {
+            // Select Best Actions to Perform depending on the State of the Enemy
+
+            // Execute the first Action with the appropriate Behavior
+            Execute(new PatrolBehavior());
+        }
+
+        private void Execute(PatrolBehavior behavior)
+        {
+            // Execute the Behavior with the Action Data
+        }
+
+        void Update()
+        {
+            // when the behavior is finished (by a check condition)
+            // -> move to the next Action with the appropriate Behavior
+            if (true)
+            {
+                Execute(new PatrolBehavior());
+            }
         }
 
         public void Die()
