@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Predator
 {
@@ -13,7 +14,11 @@ namespace Predator
         public int hCost;
         public int FCost;
 
+        public bool obstacle;
+
         public PathNode previousNode;
+
+        public PathNodeDisplay nodeDisplay;
 
         public PathNode(int x, int y)
         {

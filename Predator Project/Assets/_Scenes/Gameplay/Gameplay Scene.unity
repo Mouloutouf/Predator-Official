@@ -3077,6 +3077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1275663032}
   - component: {fileID: 1275663033}
+  - component: {fileID: 1275663034}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -3116,6 +3117,19 @@ MonoBehaviour:
   cellsOrigin: {fileID: 412230642}
   cellPrefab: {fileID: 4331854553870320251, guid: d0389ec6fb0454a43ac9a2603629821f, type: 3}
   displayPrefab: {fileID: 268884404214786793, guid: 3d1bdde8b8d26404db415ccd65c5fd2f, type: 3}
+  pathfinding: {fileID: 1275663034}
+--- !u!114 &1275663034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275663031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7862a59fef021c04bb3c313abe1f9c19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1279869239
 GameObject:
   m_ObjectHideFlags: 0

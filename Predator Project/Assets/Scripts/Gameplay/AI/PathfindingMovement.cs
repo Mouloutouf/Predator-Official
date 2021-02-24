@@ -18,12 +18,26 @@ namespace Predator
 
         public override void MoveTo(int x, int y)
         {
+            StartCoroutine(FindPath(x, y));
+        }
+
+        IEnumerator FindPath(int x, int y)
+        {
             positionsInPath.Clear();
 
             int eX, eY; enemy.GetEnemyPosition(out eX, out eY);
 
-            List<PathNode> path = Grid.instance.pathfinding.FindPath(eX, eY, x, y);
+            Debug.Log("Starting Path Finding !");
 
+            StartCoroutine(Grid.instance.pathfinding.FindPath(eX, eY, x, y));
+            yield return new WaitUntil(() => Grid.instance.pathfinding.foundPath);
+
+            List<PathNode> path = Grid.instance.pathfinding._PathList;
+
+            Debug.Log("The Path has been Found !");
+
+            // Debug Gizmos
+            #region Debug
             if (path != null)
             {
                 Vector3 offset = new Vector3(Grid.instance._width / 2, Grid.instance._height / 2);
@@ -38,6 +52,7 @@ namespace Predator
                     );
                 }
             }
+            #endregion
 
             foreach (PathNode pathNode in path)
             {

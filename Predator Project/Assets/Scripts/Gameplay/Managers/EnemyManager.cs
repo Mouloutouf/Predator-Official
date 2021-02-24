@@ -45,7 +45,6 @@ namespace Predator
 
         public void GetEnemyPosition(out int x, out int y)
         {
-            Debug.Log(enemyDisplay);
             Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);
         }
 

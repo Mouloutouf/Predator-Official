@@ -13,9 +13,11 @@ namespace Predator
 
         public Environment _environment { get; set; }
 
-        public Image _environmentDisplay { get; set; }
-        public Image _actionDisplay { get; set; }
-        public  Image _detectionDisplay { get; set; }
+        public CellDisplay _cellDisplay { get; set; }
+
+        public Image _environmentDisplay { get => _cellDisplay.environmentDisplay; }
+        public Image _actionDisplay { get => _cellDisplay.actionDisplay; }
+        public  Image _detectionDisplay { get => _cellDisplay.detectionDisplay; }
 
         public EnemyManager _enemy { get; set; }
         public PlayerManager _player { get; set; }

@@ -30,7 +30,7 @@ namespace Predator
 
         public Cell[,] _cells { get; private set; }
 
-        public Pathfinding pathfinding { get; set; }
+        public Pathfinding pathfinding;
 
         void OnEnable()
         {
@@ -83,29 +83,23 @@ namespace Predator
             {
                 for (int y = 0; y < _height; y++)
                 {
-                    ConvertCoordinatesToLocalPosition(x, y, out Vector3 position);
+                    ConvertCoordinatesToWorldPosition(x, y, out Vector3 position);
 
-                    GameObject cellObject = Instantiate(cellPrefab);
-                    cellObject.transform.parent = cellsOrigin;
-                    cellObject.transform.localPosition = position;
+                    GameObject cellObject = Instantiate(cellPrefab, position, Quaternion.identity, cellsOrigin);
 
-                    GameObject cellDisplay = Instantiate(displayPrefab);
-                    cellDisplay.transform.SetParent(displayOrigin);
-                    cellDisplay.transform.localPosition = position;
+                    GameObject cellDisplay = Instantiate(displayPrefab, position, Quaternion.identity, displayOrigin);
 
                     Cell cell = cellObject.GetComponent<Cell>();
-                    cell._environment = _environments[x, y];
-                    cell._environmentDisplay = cellDisplay.GetComponent<Image>();
-                    cell._actionDisplay = cellDisplay.transform.GetChild(0).GetComponent<Image>();
-                    cell._detectionDisplay = cellDisplay.transform.GetChild(1).GetComponent<Image>();
+                    cell._cellDisplay = cellDisplay.GetComponent<CellDisplay>();
 
+                    cell._environment = _environments[x, y];
+                    
                     cell.pathNode = new PathNode(x, y);
+                    cell.pathNode.nodeDisplay = cellDisplay.GetComponentInChildren<PathNodeDisplay>();
 
                     _cells[x, y] = cell;
                 }
             }
-
-            pathfinding = new Pathfinding(_width, _height);
         }
         #endregion
 
@@ -146,7 +140,7 @@ namespace Predator
             }
             else
             {
-                Debug.Log("out of range coordinates, position is outside the grid");
+                Debug.Log("Cell does not exist, given coordinates were outside the bounds of the grid");
                 return null;
             }
         }
