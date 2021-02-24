@@ -80,7 +80,7 @@ namespace Predator
 
         protected void ResetAction()
         {
-            foreach (Cell _cell in enabledCells) _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
+            foreach (Cell _cell in enabledCells) _cell._actionDisplay.color = _cell.DisableDisplay();
 
             enabledCells.Clear();
 

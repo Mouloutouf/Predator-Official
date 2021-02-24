@@ -16,7 +16,7 @@ namespace Predator
             if (distance <= range)
             {
                 Cell cell = grid._cells[x, y];
-                if (cell._enemy == null || cell._enemy.status == Status.Dead)
+                if ((cell._enemy == null || cell._enemy.status == Status.Dead) && cell._player == null && cell._environment.Type != EnvironmentType.Wall)
                 {
                     cell.SetToActionArea(actionColor);
                     enabledCells.Add(cell);

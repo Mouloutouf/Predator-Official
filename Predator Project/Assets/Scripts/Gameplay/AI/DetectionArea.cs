@@ -88,7 +88,7 @@ namespace Predator
             if (DetectedCells.Contains(_cell))
             {
                 DetectedCells.Remove(_cell);
-                _cell._detectionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
+                _cell._detectionDisplay.color = _cell.DisableDisplay();
             }
 
             if (depth < maxDepth)

@@ -64,7 +64,7 @@ namespace Predator
             clickAction_ = SelectCell;
             hoverDisplay.color = Color.white;
 
-            foreach (Cell _cell in grid._cells) _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
+            foreach (Cell _cell in grid._cells) _cell._actionDisplay.color = _cell.DisableDisplay();
         }
 
         public void ChangeAction(ActionType actionType)

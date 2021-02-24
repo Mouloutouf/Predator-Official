@@ -97,7 +97,7 @@ namespace Predator
             int rowAmount = level.width;
             int columnAmount = level.height;
 
-            float extraOffset = 170f;
+            float extraOffset = 210f;
             float offset = 30f;
             float increment = 2f;
 

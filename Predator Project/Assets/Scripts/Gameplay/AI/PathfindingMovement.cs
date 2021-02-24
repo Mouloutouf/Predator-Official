@@ -32,7 +32,7 @@ namespace Predator
             StartCoroutine(Grid.instance.pathfinding.FindPath(eX, eY, x, y));
             yield return new WaitUntil(() => Grid.instance.pathfinding.foundPath);
 
-            List<PathNode> path = Grid.instance.pathfinding._PathList;
+            List<PathNode> path = Grid.instance.pathfinding.Path;
 
             Debug.Log("The Path has been Found !");
 
@@ -86,6 +86,8 @@ namespace Predator
             {
                 isMoving = false;
                 enemy.waitNext = true;
+
+                Grid.instance.pathfinding.ResetNodesDisplay(Grid.instance.pathfinding.displayList);
                 return;
             }
 

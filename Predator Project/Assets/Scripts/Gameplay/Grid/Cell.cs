@@ -25,26 +25,33 @@ namespace Predator
         void Start()
         {
             _environmentDisplay.color = _environment.Color;
-            _actionDisplay.color = ChangeActionDisplay(_environment.Color);
-            _detectionDisplay.color = ChangeActionDisplay(_environment.Color);
+            _actionDisplay.color = DisableDisplay();
+            _detectionDisplay.color = DisableDisplay();
         }
 
         public void SetToActionArea(Color color)
         {
-            _actionDisplay.color = ChangeActionDisplay(color);
+            _actionDisplay.color = ChangeDisplay(color);
         }
 
         public void SetToDetectionArea(Color color)
         {
-            _detectionDisplay.color = ChangeActionDisplay(color);
+            _detectionDisplay.color = ChangeDisplay(color);
         }
 
-        public Color ChangeActionDisplay(Color color)
+        public Color ChangeDisplay(Color color)
         {
-            Color actionColor = color;
-            actionColor.a = 0.5f;
+            Color displayColor = color;
+            displayColor.a = 0.5f;
 
-            return actionColor;
+            return displayColor;
+        }
+
+        public Color DisableDisplay()
+        {
+            Color displayColor = Color.white;
+            displayColor.a = 0.0f;
+            return displayColor;
         }
     } 
 }

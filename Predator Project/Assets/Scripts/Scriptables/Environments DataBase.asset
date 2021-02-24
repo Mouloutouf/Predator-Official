@@ -40,7 +40,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 7
       Data: 
@@ -230,6 +230,45 @@ MonoBehaviour:
     - Name: visible
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 7
+      Data: 7|Predator.Environment, Assembly-CSharp
+    - Name: type
+      Entry: 3
+      Data: 6
+    - Name: color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.122641504
+    - Name: 
+      Entry: 4
+      Data: 0.122641504
+    - Name: 
+      Entry: 4
+      Data: 0.122641504
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: visible
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 

@@ -45,12 +45,12 @@ namespace Predator
         #region Creation
         private void CreateLevel()
         {
-            GetLevelMap();
+            CreateMap();
 
             CreateGrid();
         }
 
-        private void GetLevelMap()
+        private void CreateMap()
         {
             _environments = new Environment[_width, _height];
 
@@ -93,13 +93,17 @@ namespace Predator
                     cell._cellDisplay = cellDisplay.GetComponent<CellDisplay>();
 
                     cell._environment = _environments[x, y];
-                    
-                    cell.pathNode = new PathNode(x, y);
+
+                    cell.pathNode = new PathNode(x, y) { _x = x, _y = y, obstacle = cell._environment.Type == EnvironmentType.Wall ? true : false };
+                    pathfinding.allPathNodes.Add(cell.pathNode);
                     cell.pathNode.nodeDisplay = cellDisplay.GetComponentInChildren<PathNodeDisplay>();
+                    cell.pathNode.nodeDisplay.gameObject.SetActive(pathfinding.debugMode);
 
                     _cells[x, y] = cell;
                 }
             }
+
+            pathfinding.ResetNodesDisplay(pathfinding.allPathNodes);
         }
         #endregion
 

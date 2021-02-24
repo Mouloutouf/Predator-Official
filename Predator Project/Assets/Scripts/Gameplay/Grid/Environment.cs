@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Predator
 {
-    public enum EnvironmentType { None, Patio, Grass, Water, Mud, Grid }
+    public enum EnvironmentType { None, Patio, Grass, Water, Mud, Grid, Wall }
 
     [System.Serializable]
     public class Environment

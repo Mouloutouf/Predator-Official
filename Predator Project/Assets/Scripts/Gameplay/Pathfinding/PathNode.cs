@@ -20,20 +20,15 @@ namespace Predator
 
         public PathNodeDisplay nodeDisplay;
 
-        public PathNode(int x, int y)
-        {
-            _x = x;
-            _y = y;
+        public PathNode(int x, int y) {
+            _x = x; _y = y;
         }
+
+        public void CalculateFCost() => FCost = gCost + hCost;
 
         public override string ToString()
         {
             return _x + ", " + _y;
         }
-
-        public void CalculateFCost()
-        {
-            FCost = gCost + hCost;
-        }
-    } 
+    }
 }

@@ -35,7 +35,7 @@ namespace Predator
 
         public void ResetDetectedCells()
         {
-            foreach (Cell _cell in detectionArea.DetectedCells) _cell._detectionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
+            foreach (Cell _cell in detectionArea.DetectedCells) _cell._detectionDisplay.color = _cell.DisableDisplay();
 
             detectionArea.DetectedCells.Clear();
         }
