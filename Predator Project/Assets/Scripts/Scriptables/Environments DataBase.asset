@@ -58,13 +58,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.6981132
+      Data: 0.7924528
     - Name: 
       Entry: 4
-      Data: 0.6981132
+      Data: 0.7924528
     - Name: 
       Entry: 4
-      Data: 0.6981132
+      Data: 0.7924528
     - Name: 
       Entry: 4
       Data: 1
@@ -74,15 +74,6 @@ MonoBehaviour:
     - Name: visible
       Entry: 5
       Data: true
-    - Name: noise
-      Entry: 5
-      Data: false
-    - Name: path
-      Entry: 5
-      Data: true
-    - Name: traces
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -120,15 +111,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: visible
-      Entry: 5
-      Data: false
-    - Name: noise
-      Entry: 5
-      Data: false
-    - Name: path
-      Entry: 5
-      Data: false
-    - Name: traces
       Entry: 5
       Data: false
     - Name: 
@@ -170,15 +152,6 @@ MonoBehaviour:
     - Name: visible
       Entry: 5
       Data: false
-    - Name: noise
-      Entry: 5
-      Data: true
-    - Name: path
-      Entry: 5
-      Data: false
-    - Name: traces
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -218,15 +191,6 @@ MonoBehaviour:
     - Name: visible
       Entry: 5
       Data: false
-    - Name: noise
-      Entry: 5
-      Data: false
-    - Name: path
-      Entry: 5
-      Data: false
-    - Name: traces
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -266,15 +230,6 @@ MonoBehaviour:
     - Name: visible
       Entry: 5
       Data: true
-    - Name: noise
-      Entry: 5
-      Data: false
-    - Name: path
-      Entry: 5
-      Data: true
-    - Name: traces
-      Entry: 5
-      Data: false
     - Name: 
       Entry: 8
       Data: 

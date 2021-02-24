@@ -80,9 +80,9 @@ namespace Predator
 
         protected void ResetAction()
         {
-            enabledCells.Clear();
+            foreach (Cell _cell in enabledCells) _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
 
-            foreach (Cell _cell in grid._cells) _cell._actionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
+            enabledCells.Clear();
 
             player._CurrentPoints -= actionCost;
 

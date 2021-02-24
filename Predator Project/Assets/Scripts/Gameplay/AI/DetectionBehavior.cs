@@ -12,22 +12,32 @@ namespace Predator
 
         public List<Cell> DetectedCells { get => detectionArea.DetectedCells; }
 
-        public void Initialize()
+        public Color detectionColor;
+
+        public void DetectCells()
         {
             int x, y;
             enemy.GetEnemyPosition(out x, out y);
 
-            Debug.Log("yes");
-            Cell[] cellArray = { 
-                Grid.instance._cells[x + 1, y], 
-                Grid.instance._cells[x, y + 1], 
-                Grid.instance._cells[x, y - 1] 
-            };
+            ResetDetectedCells();
+
+            //if (Grid.instance.IsInsideGrid(x + 1, y))
+            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x + 1, y]); Grid.instance._cells[x + 1, y].SetToDetectionArea(detectionColor); }
+            //if (Grid.instance.IsInsideGrid(x - 1, y))
+            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x - 1, y]); Grid.instance._cells[x - 1, y].SetToDetectionArea(detectionColor); }
+            //if (Grid.instance.IsInsideGrid(x, y + 1))
+            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x, y + 1]); Grid.instance._cells[x, y + 1].SetToDetectionArea(detectionColor); }
+            //if (Grid.instance.IsInsideGrid(x, y - 1))
+            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x, y - 1]); Grid.instance._cells[x, y - 1].SetToDetectionArea(detectionColor); }
+
+            detectionArea.CreateDetectionArea();
+        }
+
+        public void ResetDetectedCells()
+        {
+            foreach (Cell _cell in detectionArea.DetectedCells) _cell._detectionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
 
             detectionArea.DetectedCells.Clear();
-            detectionArea.DetectedCells.AddRange(cellArray);
-
-            //detectionArea.CreateDetectionArea();
         }
 
         public void DetectionCheck()

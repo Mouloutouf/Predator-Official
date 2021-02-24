@@ -64,6 +64,7 @@ namespace Predator
                 if (!ObstructedCells.Contains(_cell))
                 {
                     DetectedCells.Add(_cell);
+                    _cell.SetToDetectionArea(detectionBehavior.detectionColor);
 
                     if (depth < maxDepth)
                     {
@@ -87,6 +88,7 @@ namespace Predator
             if (DetectedCells.Contains(_cell))
             {
                 DetectedCells.Remove(_cell);
+                _cell._detectionDisplay.color = _cell.ChangeActionDisplay(_cell._environment.Color);
             }
 
             if (depth < maxDepth)

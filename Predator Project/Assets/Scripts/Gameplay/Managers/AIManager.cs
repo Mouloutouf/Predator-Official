@@ -9,7 +9,7 @@ namespace Predator
     {
         public bool aIIsActive { get; set; }
 
-        private float waitTime = 2f;
+        private float waitTime = 0.2f;
         private float currentTime;
 
         public GameManager gameManager;
@@ -17,6 +17,9 @@ namespace Predator
         public Transform aIInterface;
 
         public static List<EnemyManager> enemies = new List<EnemyManager>();
+        private int enemyIndex;
+
+        public static bool waitNext { get; set; }
 
         void Start()
         {
@@ -24,25 +27,40 @@ namespace Predator
             {
                 enemy.gameManager = gameManager;
 
-                enemy.GetEnemyPosition(out int eX, out int eY);
-
-                Grid.instance._cells[eX, eY]._enemy = enemy;
+                enemy.SetEnemyCell();
             }
         }
 
         void Update()
         {
-            if (aIIsActive)
+            if (aIIsActive && waitNext)
             {
                 if (currentTime <= 0.0f)
                 {
-                    gameManager.ChangeTurn();
+                    NextEnemy();
                 }
-
                 currentTime -= Time.deltaTime;
             }
         }
 
-        public void SetAITurn() => currentTime = waitTime;
+        private void NextEnemy()
+        {
+            waitNext = false;
+            currentTime = waitTime;
+
+            if (enemyIndex < enemies.Count)
+            {
+                Debug.Log("Next Enemy : " + enemies[enemyIndex]);
+                enemies[enemyIndex].StartEnemy();
+                enemyIndex++;
+            }
+            else gameManager.ChangeTurn();
+        }
+
+        public void SetAITurn()
+        {
+            enemyIndex = 0;
+            waitNext = true;
+        }
     } 
 }

@@ -9,11 +9,6 @@ namespace Predator
 
     public enum Orientations { Up, Right, Down, Left }
 
-    public interface IBehavior
-    {
-
-    }
-
     public class EnemyManager : MonoBehaviour
     {
         public GameManager gameManager { get; set; }
@@ -31,43 +26,91 @@ namespace Predator
 
         public DetectionBehavior detectionBehavior;
 
+        public PatrolBehavior patrolBehavior;
+
+        public bool waitNext { get; set; }
+
+        public int actionAmount;
+        private int actionIndex;
+
+        public float waitTime;
+        private float currentTime;
+
+        public Cell enemyCell { get; set; }
+
         void Start()
         {
             status = Status.Normal;
-
-            if (detectionBehavior != null) detectionBehavior.Initialize();
         }
 
         public void GetEnemyPosition(out int x, out int y)
         {
+            Debug.Log(enemyDisplay);
             Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);
         }
 
-        private void Do()
+        public void StartEnemy()
         {
-            // Select Best Actions to Perform depending on the State of the Enemy
+            if (status == Status.Dead) { AIManager.waitNext = true; return; }
 
-            // Execute the first Action with the appropriate Behavior
-            Execute(new PatrolBehavior());
+            actionIndex = 0;
+            waitNext = true;
         }
 
         private void Execute(PatrolBehavior behavior)
         {
-            // Execute the Behavior with the Action Data
+            if (behavior.path.Count == 0) { AIManager.waitNext = true; return; }
+
+            behavior.DoMovement();
+            actionIndex++;
+        }
+
+        public void Next()
+        {
+            waitNext = false;
+            currentTime = waitTime;
+
+            if (actionIndex < actionAmount)
+            {
+                Debug.Log("Next Move, at action : " + actionIndex);
+                Execute(patrolBehavior);
+            }
+
+            else AIManager.waitNext = true;
         }
 
         void Update()
         {
-            // when the behavior is finished (by a check condition)
-            // -> move to the next Action with the appropriate Behavior
-            if (true)
+            if (waitNext)
             {
-                Execute(new PatrolBehavior());
+                if (currentTime <= 0.0f)
+                {
+                    Next();
+                }
+                currentTime -= Time.deltaTime; 
             }
+        }
+
+        public void SetEnemyCell()
+        {
+            if (enemyCell != null) enemyCell._enemy = null;
+
+            GetEnemyPosition(out int _x, out int _y);
+            enemyCell = Grid.instance._cells[_x, _y];
+            enemyCell._enemy = this;
+
+            if (detectionBehavior != null) detectionBehavior.DetectCells();
+        }
+
+        private void SetEnemyOrientation()
+        {
+
         }
 
         public void Die()
         {
+            detectionBehavior.ResetDetectedCells();
+
             enemyDisplay.color = Color.black;
             status = Status.Dead;
         }

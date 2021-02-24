@@ -9,11 +9,14 @@ namespace Predator
 {
     public class Cell : MonoBehaviour
     {
+        public PathNode pathNode { get; set; }
+
         public Environment _environment { get; set; }
 
         public Image _environmentDisplay { get; set; }
         public Image _actionDisplay { get; set; }
-        // I was doing the display thing for the detection
+        public  Image _detectionDisplay { get; set; }
+
         public EnemyManager _enemy { get; set; }
         public PlayerManager _player { get; set; }
 
@@ -21,11 +24,17 @@ namespace Predator
         {
             _environmentDisplay.color = _environment.Color;
             _actionDisplay.color = ChangeActionDisplay(_environment.Color);
+            _detectionDisplay.color = ChangeActionDisplay(_environment.Color);
         }
 
         public void SetToActionArea(Color color)
         {
             _actionDisplay.color = ChangeActionDisplay(color);
+        }
+
+        public void SetToDetectionArea(Color color)
+        {
+            _detectionDisplay.color = ChangeActionDisplay(color);
         }
 
         public Color ChangeActionDisplay(Color color)

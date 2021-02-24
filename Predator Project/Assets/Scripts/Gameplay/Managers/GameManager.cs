@@ -64,7 +64,11 @@ namespace Predator
         {
             foreach (EnemyManager enemy in AIManager.enemies)
             {
-                if (enemy.detectionBehavior != null) enemy.detectionBehavior.DetectionCheck();
+                if (enemy.detectionBehavior != null)
+                {
+                    enemy.SetEnemyCell();
+                    enemy.detectionBehavior.DetectionCheck();
+                }
             }
         }
     } 

@@ -30,6 +30,8 @@ namespace Predator
 
         public Cell[,] _cells { get; private set; }
 
+        public Pathfinding pathfinding { get; set; }
+
         void OnEnable()
         {
             if (instance == null) instance = this;
@@ -95,10 +97,15 @@ namespace Predator
                     cell._environment = _environments[x, y];
                     cell._environmentDisplay = cellDisplay.GetComponent<Image>();
                     cell._actionDisplay = cellDisplay.transform.GetChild(0).GetComponent<Image>();
+                    cell._detectionDisplay = cellDisplay.transform.GetChild(1).GetComponent<Image>();
+
+                    cell.pathNode = new PathNode(x, y);
 
                     _cells[x, y] = cell;
                 }
             }
+
+            pathfinding = new Pathfinding(_width, _height);
         }
         #endregion
 
@@ -131,6 +138,19 @@ namespace Predator
         #endregion
 
         #region Utility
+        public Cell GetCell(int x, int y)
+        {
+            if (IsInsideGrid(x, y))
+            {
+                return _cells[x, y];
+            }
+            else
+            {
+                Debug.Log("out of range coordinates, position is outside the grid");
+                return null;
+            }
+        }
+
         public bool IsInsideGrid(int x, int y)
         {
             return x >= 0 && y >= 0 && x < _width && y < _height;
