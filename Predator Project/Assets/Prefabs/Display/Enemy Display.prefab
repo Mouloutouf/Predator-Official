@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 4436655781154901406}
   - component: {fileID: 1971109142022971975}
   - component: {fileID: 1379335213172087510}
+  - component: {fileID: 1544503439828621844}
   m_Layer: 0
   m_Name: Enemy Display
   m_TagString: Untagged
@@ -151,3 +152,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1544503439828621844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7748515846400025461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f9e5f250c05864db3b7fc55973e939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterDisplay: {fileID: 1379335213172087510}
+  visionConeDisplay: {fileID: 2995825987232320801}

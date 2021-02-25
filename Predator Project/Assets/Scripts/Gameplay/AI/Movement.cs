@@ -125,11 +125,39 @@ namespace Predator
 
             int _x = positionsInPath[posIndex].x;
             int _y = positionsInPath[posIndex].y;
-            enemy.enemyDisplay.transform.position = Grid.instance._cells[_x, _y].transform.position;
+
+            enemy.orientation = ChangeOrientation(_x, _y);
+
+            enemy.characterDisplay.transform.position = Grid.instance._cells[_x, _y].transform.position;
 
             enemy.gameManager.UpdateCheckEnemies();
 
             posIndex++;
+        }
+
+        private Orientations ChangeOrientation(int x, int y)
+        {
+            int eX, eY; enemy.GetEnemyPosition(out eX, out eY);
+
+            if (x > eX)
+            {
+                if (y > eY) return Orientations.UpRight;
+                else if (y < eY) return Orientations.DownRight;
+                else return Orientations.Right;
+            }
+            else if (x < eX)
+            {
+                if (y > eY) return Orientations.UpLeft;
+                else if (y < eY) return Orientations.DownLeft;
+                else return Orientations.Left;
+            }
+            else
+            {
+                if (y > eY) return Orientations.Up;
+                else if (y < eY) return Orientations.Down;
+
+                else return enemy.orientation;
+            }
         }
     } 
 }

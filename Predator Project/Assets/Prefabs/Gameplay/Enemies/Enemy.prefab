@@ -47,11 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2518eabd495e1df40b522898d0db2c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDisplay: {fileID: 0}
-  energyAmount: 40
-  orientation: 1
   detectionBehavior: {fileID: 8518790366933070583}
   patrolBehavior: {fileID: 1507797784645285914}
+  _enemyDisplay: {fileID: 0}
+  energyAmount: 40
   actionAmount: 3
   waitTime: 0.1
 --- !u!114 &8518790366933070583
@@ -110,5 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ab787ec640fd240b5fc9e8cade99da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathfinding: 0
   enemy: {fileID: 8518790366933070582}
-  waitTime: 0.02
+  waitTime: 0.1

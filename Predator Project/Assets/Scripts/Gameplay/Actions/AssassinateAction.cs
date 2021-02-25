@@ -27,7 +27,7 @@ namespace Predator
             enemy.Die();
 
             // Drag the enemy's body and changes the cells enemy contents
-            enemy.enemyDisplay.transform.position = player.playerDisplay.transform.position;
+            enemy.characterDisplay.transform.position = player.playerDisplay.transform.position;
             player.GetPlayerPosition(out int _pX, out int _pY);
             grid._cells[_pX, _pY]._enemy = enemy;
             selectedCell._enemy = null;

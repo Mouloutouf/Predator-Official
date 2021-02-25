@@ -7,7 +7,7 @@ namespace Predator
 {
     public enum Status { Normal, Searching, Scared, Dead }
 
-    public enum Orientations { Up, Right, Down, Left }
+    public enum Orientations { Up, Right, Down, Left, UpRight, DownRight, DownLeft, UpLeft }
 
     public class EnemyManager : MonoBehaviour
     {
@@ -17,9 +17,11 @@ namespace Predator
         public DetectionBehavior detectionBehavior;
         public PatrolBehavior patrolBehavior;
 
-        public Image enemyDisplay;
+        public EnemyDisplay _enemyDisplay;
+        public Image characterDisplay { get => _enemyDisplay.characterDisplay; }
+        public Image visionConeDisplay { get => _enemyDisplay.visionConeDisplay; }
 
-        public Orientations orientation;
+        public Orientations orientation { get; set; }
 
         public float energyAmount;
         
@@ -38,7 +40,7 @@ namespace Predator
 
         public void GetEnemyPosition(out int x, out int y)
         {
-            Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);
+            Grid.instance.ConvertWorldPositionToGrid(characterDisplay.transform.position, out x, out y);
         }
 
         void Start()
@@ -56,7 +58,7 @@ namespace Predator
         }
         private void KillEnemy()
         {
-            enemyDisplay.color = Color.black;
+            characterDisplay.color = Color.black;
             status = Status.Dead;
 
             detectionBehavior.ClearDetectionArea();
@@ -104,7 +106,7 @@ namespace Predator
         {
             UpdatePosition();
 
-            UpdateVision();
+            UpdateVision(orientation);
         }
         private void UpdatePosition()
         {
@@ -114,11 +116,34 @@ namespace Predator
             enemyCell = Grid.instance._cells[_x, _y];
             enemyCell._enemy = this;
         }
-        private void UpdateVision()
+        private void UpdateVision(Orientations orientation)
         {
             // Update Vision in one of 8 directions
+            ChangeVisionConeAngle(orientation);
 
             if (detectionBehavior != null) detectionBehavior.CreateDetectionArea();
+        }
+        private void ChangeVisionConeAngle(Orientations orientation)
+        {
+            Vector3 newRotation = visionConeDisplay.transform.rotation.eulerAngles;
+
+            switch (orientation)
+            {
+                case Orientations.Up: newRotation.z = 180; break;
+                case Orientations.Right: newRotation.z = 90; break;
+                case Orientations.Down: newRotation.z = 0; break;
+                case Orientations.Left: newRotation.z = -90; break;
+                case Orientations.UpRight: newRotation.z = 135; break;
+                case Orientations.DownRight: newRotation.z = 45; break;
+                case Orientations.DownLeft: newRotation.z = -45; break;
+                case Orientations.UpLeft: newRotation.z = -135; break;
+                default: break;
+            }
+
+            Quaternion quaternion = Quaternion.identity;
+            quaternion.eulerAngles = newRotation;
+
+            visionConeDisplay.transform.rotation = quaternion;
         }
         #endregion
     }
