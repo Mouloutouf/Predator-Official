@@ -11,7 +11,7 @@ namespace Predator
     [System.Serializable]
     public class ActionEvent : UnityEvent<ActionType> { }
 
-    public abstract class Action : MonoBehaviour
+    public abstract class PlayerAction : MonoBehaviour
     {
         protected abstract ActionType actionType { get; set; }
 

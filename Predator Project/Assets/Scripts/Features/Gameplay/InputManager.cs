@@ -22,7 +22,7 @@ namespace Predator
 
         public PlayerManager player;
 
-        public Dictionary<ActionType, Action> actions { get => player.actions; }
+        public Dictionary<ActionType, PlayerAction> actions { get => player.actions; }
 
         void Start()
         {

@@ -94,7 +94,7 @@ namespace Predator
 
                     cell._environment = _environments[x, y];
 
-                    cell.pathNode = new PathNode(x, y) { _x = x, _y = y, obstacle = cell._environment.Type == EnvironmentType.Wall ? true : false };
+                    cell.pathNode = new PathNode(x, y) { _x = x, _y = y, obstacle = cell._environment.EnviroType == EnvironmentType.Wall ? true : false };
                     pathfinding.allPathNodes.Add(cell.pathNode);
                     cell.pathNode.nodeDisplay = cellDisplay.GetComponentInChildren<PathNodeDisplay>();
                     cell.pathNode.nodeDisplay.gameObject.SetActive(pathfinding.debugMode);

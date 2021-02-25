@@ -22,7 +22,7 @@ namespace Predator
         public int width;
         public int height;
 
-        public EnvironmentDataTypes EnvironmentDataBase;
+        public EnvironmentData EnvironmentDataBase;
 
         public EnvironmentMap map { get; set; }
 

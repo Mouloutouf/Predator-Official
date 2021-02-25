@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Predator
 {
-    public class AssassinateAction : Action
+    public class AssassinateAction : PlayerAction
     {
         protected override ActionType actionType { get; set; } = ActionType.StealthKill;
 

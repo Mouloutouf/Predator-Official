@@ -21,7 +21,7 @@ namespace Predator
                 // Player Turn
                 if (value == true) {
                     SwitchTurn(true);
-                    playerManager.SetPlayerTurn();
+                    playerManager.StartPlayer();
                 }
                 // AI Turn
                 else {

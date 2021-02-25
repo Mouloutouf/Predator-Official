@@ -1,12 +1,86 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Predator
 {
-    public class Movement : MonoBehaviour
+    [System.Serializable]
+    public class Waypoint
+    {
+        public Transform point;
+
+        public (int x, int y) pos
+        {
+            get {
+                (int x, int y) _pos;
+                Grid.instance.ConvertWorldPositionToGrid(point.position, out _pos.x, out _pos.y);
+                return _pos;
+            }
+        }
+    }
+
+    public class EnemyMoveAction : EnemyAction
+    {
+        private EnemyManager enemy { get => enemyBehavior.enemy; }
+
+        public List<(int x, int y)> positions = new List<(int x, int y)>();
+        private int positionIndex; private (int x, int y) currentPos { get => positions[positionIndex]; }
+        
+        public override void Execute()
+        {
+            if (positionIndex >= positions.Count)
+            {
+                enemyBehavior.active = false; enemy.next = true; return;
+            }
+
+            Move(currentPos.x, currentPos.y);
+
+            positionIndex++;
+        }
+
+        private void Move(int x, int y)
+        {
+            Debug.Log("Movement");
+
+            enemy.orientation = ChangeOrientation(x, y);
+
+            enemy.characterDisplay.transform.position = Grid.instance._cells[x, y].transform.position;
+
+            enemy.gameManager.UpdateCheckEnemies();
+        }
+
+        private Orientations ChangeOrientation(int x, int y)
+        {
+            int eX, eY; enemy.GetEnemyPosition(out eX, out eY);
+
+            if (x > eX)
+            {
+                if (y > eY) return Orientations.UpRight;
+                else if (y < eY) return Orientations.DownRight;
+                else return Orientations.Right;
+            }
+            else if (x < eX)
+            {
+                if (y > eY) return Orientations.UpLeft;
+                else if (y < eY) return Orientations.DownLeft;
+                else return Orientations.Left;
+            }
+            else
+            {
+                if (y > eY) return Orientations.Up;
+                else if (y < eY) return Orientations.Down;
+
+                else return enemy.orientation;
+            }
+        }
+    }
+
+    public class PatrolBehavior : MonoBehaviour
     {
         public bool pathfinding;
+
+        public List<Waypoint> path;
 
         public EnemyManager enemy;
 
@@ -18,6 +92,15 @@ namespace Predator
         private List<Vector2Int> positionsInPath = new List<Vector2Int>();
         private int posIndex;
 
+        private int pointIndex;
+
+        public void StartMovement()
+        {
+            if (pointIndex >= path.Count) pointIndex = 0;
+
+            MoveTo(path[pointIndex].pos.x, path[pointIndex].pos.y);
+            pointIndex++;
+        }
         public void MoveTo(int x, int y)
         {
             if (pathfinding) StartCoroutine(StartPathfindingMove(x, y));
@@ -97,7 +180,7 @@ namespace Predator
             posIndex = 0;
             isMoving = true;
         }
-        
+
         void Update()
         {
             if (isMoving)
@@ -159,5 +242,5 @@ namespace Predator
                 else return enemy.orientation;
             }
         }
-    } 
+    }
 }

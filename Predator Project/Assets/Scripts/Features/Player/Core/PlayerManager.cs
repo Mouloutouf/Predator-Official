@@ -47,7 +47,7 @@ namespace Predator
         public Image playerDisplay;
         public Color visibleColor, hiddenColor;
 
-        public Dictionary<ActionType, Action> actions = new Dictionary<ActionType, Action>();
+        public Dictionary<ActionType, PlayerAction> actions = new Dictionary<ActionType, PlayerAction>();
 
         public Cell playerCell { get; set; }
 
@@ -58,14 +58,14 @@ namespace Predator
 
         void Start()
         {
+            InitPlayer();
+
             StartPlayer();
 
-            SetPlayerTurn();
-
-            SetPlayerCell();
+            UpdatePlayer();
         }
 
-        private void StartPlayer()
+        private void InitPlayer()
         {
             healthSlider.maxValue = health;
             energySlider.maxValue = maxEnergy;
@@ -75,14 +75,14 @@ namespace Predator
             _CurrentEnergy = startEnergy;
         }
 
-        public void SetPlayerTurn()
+        public void StartPlayer()
         {
             _CurrentPoints = actionPoints;
 
-            foreach (Action action in actions.Values) action.actionToggle.isOn = false;
+            foreach (PlayerAction action in actions.Values) action.actionToggle.isOn = false;
         }
 
-        public void SetPlayerCell()
+        public void UpdatePlayer()
         {
             if (playerCell != null) playerCell._player = null;
 

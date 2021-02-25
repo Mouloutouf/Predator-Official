@@ -118,7 +118,6 @@ namespace Predator
         }
         private void UpdateVision(Orientations orientation)
         {
-            // Update Vision in one of 8 directions
             ChangeVisionConeAngle(orientation);
 
             if (detectionBehavior != null) detectionBehavior.CreateDetectionArea();
