@@ -26,7 +26,7 @@ namespace Predator
                 // AI Turn
                 else {
                     SwitchTurn(false);
-                    aIManager.SetAITurn();
+                    aIManager.StartAI();
                 }
                 inputManager.ResetAction();
             }
@@ -60,13 +60,13 @@ namespace Predator
             SceneManager.LoadScene(0);
         }
 
-        public void CheckAtEachAction()
+        public void UpdateCheckEnemies()
         {
             foreach (EnemyManager enemy in AIManager.enemies)
             {
                 if (enemy.detectionBehavior != null)
                 {
-                    enemy.SetEnemyCell();
+                    enemy.UpdateEnemy();
                     enemy.detectionBehavior.DetectionCheck();
                 }
             }

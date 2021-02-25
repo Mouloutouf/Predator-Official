@@ -25,16 +25,14 @@ namespace Predator
         public List<Waypoint> path;
 
         public EnemyManager enemy;
-
         public Movement movement;
 
         private int pointIndex;
 
-        public void DoMovement()
+        public void StartMovement()
         {
             if (pointIndex >= path.Count) pointIndex = 0;
 
-            Debug.Log(pointIndex);
             movement.MoveTo(path[pointIndex].pos.Item1, path[pointIndex].pos.Item2);
             pointIndex++;
         }

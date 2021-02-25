@@ -7,19 +7,20 @@ namespace Predator
 {
     public class AIManager : MonoBehaviour
     {
-        public bool aIIsActive { get; set; }
-
-        private float waitTime = 0.2f;
-        private float currentTime;
-
         public GameManager gameManager;
 
         public Transform aIInterface;
 
         public static List<EnemyManager> enemies = new List<EnemyManager>();
-        private int enemyIndex;
 
-        public static bool waitNext { get; set; }
+        public static bool next { get; set; }
+
+        private float waitTime = 0.2f;
+        private float currentTime;
+
+        private int currentIndex;
+
+        public bool aIIsActive { get; set; }
 
         void Start()
         {
@@ -27,40 +28,48 @@ namespace Predator
             {
                 enemy.gameManager = gameManager;
 
-                enemy.SetEnemyCell();
+                enemy.UpdateEnemy();
             }
+        }
+
+        public void StartAI()
+        {
+            currentIndex = 0;
+            StartEnemy(currentIndex);
         }
 
         void Update()
         {
-            if (aIIsActive && waitNext)
+            if (aIIsActive)
             {
-                if (currentTime <= 0.0f)
+                if (next)
                 {
-                    NextEnemy();
+                    if (currentTime <= 0.0f)
+                    {
+                        currentTime = waitTime;
+
+                        NextEnemy();
+                    }
+                    currentTime -= Time.deltaTime; 
                 }
-                currentTime -= Time.deltaTime;
             }
         }
 
         private void NextEnemy()
         {
-            waitNext = false;
-            currentTime = waitTime;
+            next = false;
 
-            if (enemyIndex < enemies.Count)
+            if (currentIndex < enemies.Count)
             {
-                Debug.Log("Next Enemy : " + enemies[enemyIndex]);
-                enemies[enemyIndex].StartEnemy();
-                enemyIndex++;
+                StartEnemy(currentIndex);
             }
             else gameManager.ChangeTurn();
         }
-
-        public void SetAITurn()
+        private void StartEnemy(int index)
         {
-            enemyIndex = 0;
-            waitNext = true;
+            Debug.Log("Starting Enemy : " + enemies[index]);
+            enemies[index].StartEnemy();
+            currentIndex++;
         }
     } 
 }

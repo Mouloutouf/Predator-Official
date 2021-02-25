@@ -39,7 +39,7 @@ namespace Predator
             set {
                 _currentPoints = value;
                 actionDisplayText.text = value.ToString();
-                gameManager.CheckAtEachAction();
+                gameManager.UpdateCheckEnemies();
                 if (value <= 0) gameManager.ChangeTurn();
             }
         }

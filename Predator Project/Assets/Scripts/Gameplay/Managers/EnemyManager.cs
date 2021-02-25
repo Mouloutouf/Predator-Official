@@ -11,24 +11,22 @@ namespace Predator
 
     public class EnemyManager : MonoBehaviour
     {
+        public Status status { get; set; }
         public GameManager gameManager { get; set; }
+
+        public DetectionBehavior detectionBehavior;
+        public PatrolBehavior patrolBehavior;
 
         public Image enemyDisplay;
 
-        public float energyAmount;
+        public Orientations orientation;
 
+        public float energyAmount;
+        
         void OnEnable() => AIManager.enemies.Add(this);
         void OnDisable() => AIManager.enemies.Remove(this);
 
-        public Status status { get; set; }
-
-        public Orientations orientation;
-
-        public DetectionBehavior detectionBehavior;
-
-        public PatrolBehavior patrolBehavior;
-
-        public bool waitNext { get; set; }
+        public bool next { get; set; }
 
         public int actionAmount;
         private int actionIndex;
@@ -38,80 +36,90 @@ namespace Predator
 
         public Cell enemyCell { get; set; }
 
-        void Start()
-        {
-            status = Status.Normal;
-        }
-
         public void GetEnemyPosition(out int x, out int y)
         {
             Grid.instance.ConvertWorldPositionToGrid(enemyDisplay.transform.position, out x, out y);
         }
 
+        void Start()
+        {
+            status = Status.Normal;
+        }
+
+        #region Core
         public void StartEnemy()
         {
-            if (status == Status.Dead) { AIManager.waitNext = true; return; }
+            if (status == Status.Dead) { AIManager.next = true; return; }
 
             actionIndex = 0;
-            waitNext = true;
+            StartBehavior(patrolBehavior);
         }
-
-        private void Execute(PatrolBehavior behavior)
+        private void KillEnemy()
         {
-            if (behavior.path.Count == 0) { AIManager.waitNext = true; return; }
+            enemyDisplay.color = Color.black;
+            status = Status.Dead;
 
-            behavior.DoMovement();
-            actionIndex++;
+            detectionBehavior.ClearDetectionArea();
         }
+        public void Die() => KillEnemy();
+        #endregion
 
-        public void Next()
-        {
-            waitNext = false;
-            currentTime = waitTime;
-
-            if (actionIndex < actionAmount)
-            {
-                Debug.Log("Next Move, at action : " + actionIndex);
-                Execute(patrolBehavior);
-            }
-
-            else AIManager.waitNext = true;
-        }
-
+        #region Behaviors
         void Update()
         {
-            if (waitNext)
+            if (next)
             {
                 if (currentTime <= 0.0f)
                 {
-                    Next();
+                    currentTime = waitTime;
+
+                    NextBehavior();
                 }
-                currentTime -= Time.deltaTime; 
+                currentTime -= Time.deltaTime;
             }
         }
 
-        public void SetEnemyCell()
+        public void NextBehavior()
+        {
+            next = false;
+
+            if (actionIndex < actionAmount)
+            {
+                StartBehavior(patrolBehavior);
+            }
+            else AIManager.next = true;
+        }
+        private void StartBehavior(PatrolBehavior behavior)
+        {
+            if (behavior.path.Count == 0) { AIManager.next = true; return; }
+
+            Debug.Log("Starting Behavior, at action : " + actionIndex);
+            behavior.StartMovement();
+            actionIndex++;
+        }
+        #endregion
+
+        #region Update
+        public void UpdateEnemy()
+        {
+            UpdatePosition();
+
+            UpdateVision();
+        }
+        private void UpdatePosition()
         {
             if (enemyCell != null) enemyCell._enemy = null;
 
             GetEnemyPosition(out int _x, out int _y);
             enemyCell = Grid.instance._cells[_x, _y];
             enemyCell._enemy = this;
-
-            if (detectionBehavior != null) detectionBehavior.DetectCells();
         }
-
-        private void SetEnemyOrientation()
+        private void UpdateVision()
         {
+            // Update Vision in one of 8 directions
 
+            if (detectionBehavior != null) detectionBehavior.CreateDetectionArea();
         }
-
-        public void Die()
-        {
-            detectionBehavior.ResetDetectedCells();
-
-            enemyDisplay.color = Color.black;
-            status = Status.Dead;
-        }
-    } 
+        #endregion
+    }
 }

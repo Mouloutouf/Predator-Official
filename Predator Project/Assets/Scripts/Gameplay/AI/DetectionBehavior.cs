@@ -14,12 +14,12 @@ namespace Predator
 
         public Color detectionColor;
 
-        public void DetectCells()
+        public void CreateDetectionArea()
         {
             int x, y;
             enemy.GetEnemyPosition(out x, out y);
 
-            ResetDetectedCells();
+            ClearDetectionArea();
 
             //if (Grid.instance.IsInsideGrid(x + 1, y))
             //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x + 1, y]); Grid.instance._cells[x + 1, y].SetToDetectionArea(detectionColor); }
@@ -33,7 +33,7 @@ namespace Predator
             detectionArea.CreateDetectionArea();
         }
 
-        public void ResetDetectedCells()
+        public void ClearDetectionArea()
         {
             foreach (Cell _cell in detectionArea.DetectedCells) _cell._detectionDisplay.color = _cell.DisableDisplay();
 

@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Predator
 {
-    public class PathfindingMovement : Movement
+    public class Movement : MonoBehaviour
     {
+        public bool pathfinding;
+
         public EnemyManager enemy;
 
         public bool isMoving { get; set; }
@@ -16,12 +18,13 @@ namespace Predator
         private List<Vector2Int> positionsInPath = new List<Vector2Int>();
         private int posIndex;
 
-        public override void MoveTo(int x, int y)
+        public void MoveTo(int x, int y)
         {
-            StartCoroutine(FindPath(x, y));
-        }
+            if (pathfinding) StartCoroutine(StartPathfindingMove(x, y));
 
-        IEnumerator FindPath(int x, int y)
+            else StartMove(x, y);
+        }
+        private IEnumerator StartPathfindingMove(int x, int y)
         {
             positionsInPath.Clear();
 
@@ -59,35 +62,64 @@ namespace Predator
                 positionsInPath.Add(new Vector2Int(pathNode._x, pathNode._y));
             }
 
-            posIndex = 0;
+            Init();
+        }
+        private void StartMove(int x, int y)
+        {
+            positionsInPath.Clear();
 
+            Debug.Log("destination Pos : " + x + " " + y);
+            int eX, eY; enemy.GetEnemyPosition(out eX, out eY);
+            Debug.Log("enemy Pos : " + eX + " " + eY);
+            int deltaX, deltaY;
+
+            int cX = eX; int cY = eY;
+
+            Debug.Log("current Pos : " + cX + " " + cY);
+            Debug.Log(!(cX == x && cY == y));
+
+            while (!(cX == x && cY == y))
+            {
+                deltaX = x - cX;
+                cX = deltaX > 0 ? cX + 1 : deltaX < 0 ? cX - 1 : cX;
+
+                deltaY = y - cY;
+                cY = deltaY > 0 ? cY + 1 : deltaY < 0 ? cY - 1 : cY;
+
+                positionsInPath.Add(new Vector2Int(cX, cY));
+                Debug.Log("path Pos : " + cX + " " + cY);
+            }
+
+            Init();
+        }
+        private void Init()
+        {
+            posIndex = 0;
             isMoving = true;
         }
-
+        
         void Update()
         {
             if (isMoving)
             {
                 if (currentTime <= 0.0f)
                 {
-                    MoveNext();
+                    currentTime = waitTime;
+
+                    Move();
                 }
                 currentTime -= Time.deltaTime;
             }
         }
 
-        private void MoveNext()
+        private void Move()
         {
             Debug.Log("Movement");
-
-            currentTime = waitTime;
 
             if (posIndex == positionsInPath.Count)
             {
                 isMoving = false;
-                enemy.waitNext = true;
-
-                Grid.instance.pathfinding.ResetNodesDisplay(Grid.instance.pathfinding.displayList);
+                enemy.next = true;
                 return;
             }
 
@@ -95,9 +127,9 @@ namespace Predator
             int _y = positionsInPath[posIndex].y;
             enemy.enemyDisplay.transform.position = Grid.instance._cells[_x, _y].transform.position;
 
-            enemy.gameManager.CheckAtEachAction();
+            enemy.gameManager.UpdateCheckEnemies();
 
             posIndex++;
         }
-    }  
+    } 
 }
