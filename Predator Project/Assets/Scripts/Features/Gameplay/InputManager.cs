@@ -24,6 +24,8 @@ namespace Predator
 
         public Dictionary<ActionType, PlayerAction> actions { get => player.actions; }
 
+        public Bresenham bresenhamAlgorithm;
+
         void Start()
         {
             grid = Grid.instance;
@@ -53,7 +55,7 @@ namespace Predator
         {
             grid.ConvertWorldPositionToGrid(worldPosition, out int x, out int y);
 
-            if (x >= 0 && y >= 0 && x < grid._width && y < grid._height)
+            if (grid.IsInsideGrid(x, y))
             {
                 action_(x, y);
             }
@@ -86,6 +88,17 @@ namespace Predator
 
             selectDisplay.gameObject.SetActive(true);
             selectDisplay.transform.position = selectedCell.transform.position;
+
+            player.GetPlayerPosition(out int pX, out int pY);
+            bresenhamAlgorithm.Line(pX, pY, x, y);
+
+            Vector3 offset = new Vector3(Grid.instance._width / 2, Grid.instance._height / 2);
+            Debug.DrawLine(
+                (new Vector3(pX, pY)) + (Vector3.one * 0.5f) - offset,
+                (new Vector3(x, y)) + (Vector3.one * 0.5f) - offset,
+                Color.green,
+                10f
+            );
         }
     } 
 }
