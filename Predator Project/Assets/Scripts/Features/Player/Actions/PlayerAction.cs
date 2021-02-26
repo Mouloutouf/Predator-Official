@@ -18,7 +18,7 @@ namespace Predator
         public Toggle actionToggle;
         public Color actionColor;
 
-        public const int actionCost = 1;
+        public const int Action_Cost = 1;
         public float energyCost;
         public int range;
 
@@ -84,7 +84,7 @@ namespace Predator
 
             enabledCells.Clear();
 
-            player._CurrentPoints -= actionCost;
+            player._CurrentPoints -= Action_Cost;
 
             // re enables the same action if the player has any action points left
             if (player._CurrentPoints > 0) EnableAction(true);
