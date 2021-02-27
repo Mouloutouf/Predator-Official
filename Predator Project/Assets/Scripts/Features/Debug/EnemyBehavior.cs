@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace Predator
 {
-    public abstract class EnemyAction
-    {
-        public EnemyBehavior enemyBehavior;
-
-        public abstract void Execute();
-    }
-
     public abstract class EnemyBehavior : MonoBehaviour
     {
         public EnemyManager enemy;
@@ -18,9 +11,9 @@ namespace Predator
         public float waitTime;
         protected float currentTime;
 
-        public List<EnemyAction> enemyActions { get; protected set; }
+        public List<EnemyAction> Actions { get; protected set; }
 
-        public int actionCount { get => enemyActions.Count; }
+        public int actionCount { get => Actions.Count; }
         protected int actionIndex;
 
         public bool active { get; set; }
@@ -42,30 +35,31 @@ namespace Predator
                 {
                     currentTime = waitTime;
 
-                    Do();
+                    DoAction();
                 }
                 currentTime -= Time.deltaTime;
             }
         }
 
-        protected virtual void Do()
+        protected virtual void DoAction()
         {
-            enemyActions[actionIndex].Execute();
+            Actions[actionIndex].Do();
         }
     }
 
     public class EnemyMoveAction : EnemyAction
     {
-        private EnemyManager enemy { get => enemyBehavior.enemy; }
+        public EnemyBehavior behavior;
+        private EnemyManager enemy { get => behavior.enemy; }
 
         public List<(int x, int y)> positions = new List<(int x, int y)>();
         private int positionIndex; private (int x, int y) currentPos { get => positions[positionIndex]; }
 
-        public override void Execute()
+        public void Execute()
         {
             if (positionIndex >= positions.Count)
             {
-                enemyBehavior.active = false; enemy.next = true; return;
+                behavior.active = false; enemy.next = true; return;
             }
 
             Move(currentPos.x, currentPos.y);
@@ -107,6 +101,11 @@ namespace Predator
 
                 else return enemy.orientation;
             }
+        }
+
+        protected override void Update()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

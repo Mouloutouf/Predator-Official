@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Predator
 {
-    public abstract class Action
+    public abstract class EnemyAction
     {
         public int actionCost;
 
@@ -15,7 +15,7 @@ namespace Predator
         protected abstract void Update();
     }
 
-    public class MoveAction : Action
+    public class MoveAction : EnemyAction
     {
         public EnemyManager enemy;
         public int x, y;

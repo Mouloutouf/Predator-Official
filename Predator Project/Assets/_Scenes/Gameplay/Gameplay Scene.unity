@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee66961abe18dcc47b35700318775dc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 11400000, guid: ecaf89a518d6f6c44a9b1e83ae7c8dea, type: 2}
+  level: {fileID: 11400000, guid: dd358ca38c3c31e45acb6aba8acfe508, type: 2}
   levelCanvas: {fileID: 174016822}
   displayOrigin: {fileID: 1642416104}
   cellsOrigin: {fileID: 412230642}
@@ -3163,7 +3163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7862a59fef021c04bb3c313abe1f9c19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
+  debugMode: 0
 --- !u!1 &1279869239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3773,7 +3773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionToggle: {fileID: 813781186}
   actionColor: {r: 0, g: 0.5644222, b: 0.8584906, a: 1}
-  energyCost: 0
+  energyCost: 10
   range: 4
   player: {fileID: 1955136079}
   inputManager: {fileID: 928132944}
@@ -5193,7 +5193,7 @@ MonoBehaviour:
   maxEnergy: 100
   startEnergy: 70
   actionDisplayText: {fileID: 2902549778584501220}
-  actionPoints: 300
+  actionPoints: 3
   playerDisplay: {fileID: 1207012633}
   visibleColor: {r: 0.7688679, g: 1, b: 0.974877, a: 1}
   hiddenColor: {r: 0, g: 0.21698111, b: 0.19334953, a: 1}

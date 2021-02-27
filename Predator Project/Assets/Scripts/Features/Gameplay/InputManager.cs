@@ -89,6 +89,8 @@ namespace Predator
             selectDisplay.gameObject.SetActive(true);
             selectDisplay.transform.position = selectedCell.transform.position;
 
+            // Bresenham Display
+            #region Bresenham
             player.GetPlayerPosition(out int pX, out int pY);
             bresenhamAlgorithm.Line(pX, pY, x, y);
 
@@ -99,6 +101,7 @@ namespace Predator
                 Color.green,
                 10f
             );
+            #endregion
         }
     } 
 }
