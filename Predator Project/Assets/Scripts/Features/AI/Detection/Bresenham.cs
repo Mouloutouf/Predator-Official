@@ -4,13 +4,17 @@ using UnityEngine;
 
 namespace Predator
 {
-    public class Bresenham : MonoBehaviour
+    public class Bresenham
     {
         Grid grid { get => Grid.instance; }
         private List<PathNode> displayList = new List<PathNode>();
 
-        public void Line(int startX, int startY, int endX, int endY)
+        private List<Cell> capturedCells;
+
+        public List<Cell> Line(int startX, int startY, int endX, int endY)
         {
+            capturedCells = new List<Cell>();
+
             ClearAllPixels();
             displayList.Clear();
 
@@ -35,7 +39,7 @@ namespace Predator
 
             float fault = _long / 2;
 
-            PutPixel(startX, startY);
+            AddCell(startX, startY);
 
             for (int i = 0; i < _long; i++)
             {
@@ -51,14 +55,25 @@ namespace Predator
                 int currentX = isWidthLongest ? currentLong : currentShort;
                 int currentY = isWidthLongest ? currentShort : currentLong;
 
-                PutPixel(currentX, currentY);
+                AddCell(currentX, currentY);
             }
 
-            PutPixel(endX, endY);
+            AddCell(endX, endY);
+
+            return capturedCells;
         }
-        private void PutPixel(int x, int y)
+        private void AddCell(int x, int y)
         {
-            PathNode node = grid._cells[x, y].pathNode;
+            Cell cell = grid.GetCell(x, y);
+            if (cell == null) return;
+
+            PutPixel(cell);
+
+            capturedCells.Add(cell);
+        }
+        private void PutPixel(Cell cell)
+        {
+            PathNode node = cell.pathNode;
             displayList.Add(node);
             grid.pathfinding.DisplayNode(node, node.nodeDisplay.greenColor);
         }

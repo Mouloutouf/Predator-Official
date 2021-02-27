@@ -12,11 +12,12 @@ namespace Predator
         private int eX, eY;
 
         public List<Cell> DetectedCells { get; set; } = new List<Cell>();
-        public List<Cell> ObstructedCells { get; set; } = new List<Cell>();
 
         public Orientations Orientation { get => Enemy.orientation; }
 
-        public int maxDepth;
+        public Bresenham bresenham = new Bresenham();
+
+        public VisionArea visionArea = new VisionArea();
 
         public void CreateDetectionArea()
         {
@@ -24,80 +25,39 @@ namespace Predator
 
             DetectedCells.Clear();
 
-            int visionLayer = Orientation == Orientations.Up || Orientation == Orientations.Right ? 1 : -1;
-            int[] visionZone = new int[3] { -1, 0, 1 };
-
-            CheckCellsAtVisionArea(eX, eY, visionLayer, visionZone, 1, false);
+            BresenhamRayCheck();
         }
 
-        private void CheckCellsAtVisionArea(int _x, int _y, int visionLayer, int[] visionZone, int depth, bool obstacle)
+        private void BresenhamRayCheck()
         {
-            int a, b, B;
-            if (Orientation == Orientations.Right || Orientation == Orientations.Left) { a = _x; b = _y; }
-            else { a = _y; b = _x; }
-
-            a += visionLayer;
-            B = b;
-
-            for (int u = 0; u < visionZone.Length; u++)
+            foreach (Vector2Int position in visionArea.areaVisions[Orientation])
             {
-                b = B + visionZone[u];
+                int pX = eX + position.x;
+                int pY = eY + position.y;
 
-                if (Orientation == Orientations.Right || Orientation == Orientations.Left) { _x = a; _y = b; }
-                else { _x = b; _y = a; }
+                if (Grid.instance.GetCell(pX, pY) == null) continue;
 
-                if (Grid.instance.IsInsideGrid(_x, _y))
+                List<Cell> cellsInLine = bresenham.Line(eX, eY, pX, pY);
+
+                bool obstructed = false;
+                foreach (Cell cell in cellsInLine)
                 {
-                    Cell _cell = Grid.instance._cells[_x, _y];
-
-                    if (obstacle) depth = RemoveObstructedCell(_x, _y, visionLayer, visionZone, depth, _cell);
-
-                    else depth = AddVisibleCell(_x, _y, visionLayer, visionZone, depth, _cell);
+                    if (!cell._environment.Visible) obstructed = true;
+                }
+                if (!obstructed)
+                {
+                    AddVisibleCell(pX, pY);
                 }
             }
+            AddVisibleCell(eX, eY);
         }
-
-        private int AddVisibleCell(int _x, int _y, int visionLayer, int[] visionZone, int depth, Cell _cell)
+        private void AddVisibleCell(int x, int y)
         {
-            if (_cell._environment.Visible)
-            {
-                if (!ObstructedCells.Contains(_cell))
-                {
-                    DetectedCells.Add(_cell);
-                    _cell.SetToDetectionArea(detectionBehavior.detectionColor);
+            Cell visibleCell = Grid.instance._cells[x, y];
+            DetectedCells.Add(visibleCell);
 
-                    if (depth < maxDepth)
-                    {
-                        depth++;
-                        CheckCellsAtVisionArea(_x, _y, visionLayer, visionZone, depth, false);
-                    }
-                }
-            }
-            else // Obstacle
-            {
-                CheckCellsAtVisionArea(_x, _y, visionLayer, visionZone, depth, true);
-            }
-
-            return depth;
-        }
-
-        private int RemoveObstructedCell(int _x, int _y, int visionLayer, int[] visionZone, int depth, Cell _cell)
-        {
-            ObstructedCells.Add(_cell);
-
-            if (DetectedCells.Contains(_cell))
-            {
-                DetectedCells.Remove(_cell);
-                _cell._detectionDisplay.color = _cell.DisableDisplay();
-            }
-
-            if (depth < maxDepth)
-            {
-                depth++;
-                CheckCellsAtVisionArea(_x, _y, visionLayer, visionZone, depth, true);
-            }
-
-            return depth;
+            // Display
+            visibleCell.SetToDetectionArea(detectionBehavior.detectionColor);
         }
     } 
 }

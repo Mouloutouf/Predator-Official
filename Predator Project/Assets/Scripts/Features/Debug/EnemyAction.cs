@@ -28,7 +28,7 @@ namespace Predator
         }
         protected override void Update()
         {
-            enemy.gameManager.UpdateCheckEnemies();
+            enemy.gameManager.aIManager.UpdateEnemies();
         }
 
         private void Move(int x, int y)

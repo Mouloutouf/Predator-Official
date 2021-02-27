@@ -39,7 +39,6 @@ namespace Predator
             set {
                 _currentPoints = value;
                 actionDisplayText.text = value.ToString();
-                gameManager.UpdateCheckEnemies();
                 if (value <= 0) gameManager.ChangeTurn();
             }
         }
@@ -62,7 +61,7 @@ namespace Predator
 
             StartPlayer();
 
-            UpdatePlayer();
+            UpdatePlayerPosition();
         }
 
         private void InitPlayer()
@@ -82,7 +81,7 @@ namespace Predator
             foreach (PlayerAction action in actions.Values) action.actionToggle.isOn = false;
         }
 
-        public void UpdatePlayer()
+        public void UpdatePlayerPosition()
         {
             if (playerCell != null) playerCell._player = null;
 
@@ -91,6 +90,8 @@ namespace Predator
             playerCell._player = this;
 
             playerDisplay.color = playerCell._environment.Visible == true ? visibleColor : hiddenColor;
+
+            gameManager.aIManager.DetectionCheck();
         }
     } 
 }

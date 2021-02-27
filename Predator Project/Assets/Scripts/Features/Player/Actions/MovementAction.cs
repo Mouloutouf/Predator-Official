@@ -30,7 +30,7 @@ namespace Predator
             player.playerDisplay.transform.position = grid._cells[x, y].transform.position;
 
             // Changes the cells player contents
-            player.UpdatePlayer();
+            player.UpdatePlayerPosition();
 
             // Removes a certain amount of energy
             player._CurrentEnergy -= energyCost;

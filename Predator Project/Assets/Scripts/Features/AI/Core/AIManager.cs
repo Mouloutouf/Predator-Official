@@ -27,9 +27,10 @@ namespace Predator
             foreach (EnemyManager enemy in enemies)
             {
                 enemy.gameManager = gameManager;
-
-                enemy.UpdateEnemy();
+                enemy.InitEnemy();
             }
+
+            UpdateEnemies();
         }
 
         public void StartAI()
@@ -50,7 +51,7 @@ namespace Predator
 
                         NextEnemy();
                     }
-                    currentTime -= Time.deltaTime; 
+                    currentTime -= Time.deltaTime;
                 }
             }
         }
@@ -70,6 +71,21 @@ namespace Predator
             Debug.Log("Starting Enemy : " + enemies[index]);
             enemies[index].StartEnemy();
             currentIndex++;
+        }
+
+        public void UpdateEnemies()
+        {
+            foreach (EnemyManager enemy in enemies)
+            {
+                enemy.UpdateEnemy();
+            }
+        }
+        public void DetectionCheck()
+        {
+            foreach (EnemyManager enemy in enemies)
+            {
+                enemy.detectionBehavior.DetectionCheck();
+            }
         }
     } 
 }

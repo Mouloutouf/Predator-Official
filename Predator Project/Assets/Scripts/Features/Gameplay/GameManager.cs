@@ -59,17 +59,5 @@ namespace Predator
         {
             SceneManager.LoadScene(0);
         }
-
-        public void UpdateCheckEnemies()
-        {
-            foreach (EnemyManager enemy in AIManager.enemies)
-            {
-                if (enemy.detectionBehavior != null)
-                {
-                    enemy.UpdateEnemy();
-                    enemy.detectionBehavior.DetectionCheck();
-                }
-            }
-        }
     } 
 }

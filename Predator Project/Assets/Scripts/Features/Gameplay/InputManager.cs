@@ -24,7 +24,7 @@ namespace Predator
 
         public Dictionary<ActionType, PlayerAction> actions { get => player.actions; }
 
-        public Bresenham bresenhamAlgorithm;
+        public Bresenham bresenhamAlgorithm = new Bresenham();
 
         void Start()
         {

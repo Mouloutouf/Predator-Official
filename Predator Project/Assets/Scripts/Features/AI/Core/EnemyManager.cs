@@ -21,6 +21,7 @@ namespace Predator
         public Image characterDisplay { get => _enemyDisplay.characterDisplay; }
         public Image visionConeDisplay { get => _enemyDisplay.visionConeDisplay; }
 
+        public Orientations startOrientation;
         public Orientations orientation { get; set; }
 
         public float energyAmount;
@@ -43,12 +44,12 @@ namespace Predator
             Grid.instance.ConvertWorldPositionToGrid(characterDisplay.transform.position, out x, out y);
         }
 
-        void Start()
+        #region Core
+        public void InitEnemy()
         {
             status = Status.Normal;
+            orientation = startOrientation;
         }
-
-        #region Core
         public void StartEnemy()
         {
             if (status == Status.Dead) { AIManager.next = true; return; }
@@ -120,7 +121,7 @@ namespace Predator
         {
             ChangeVisionConeAngle(orientation);
 
-            if (detectionBehavior != null) detectionBehavior.CreateDetectionArea();
+            detectionBehavior.CreateDetectionArea();
         }
         private void ChangeVisionConeAngle(Orientations orientation)
         {

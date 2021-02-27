@@ -75,7 +75,7 @@ namespace Predator
 
             enemy.characterDisplay.transform.position = Grid.instance._cells[x, y].transform.position;
 
-            enemy.gameManager.UpdateCheckEnemies();
+            enemy.gameManager.aIManager.UpdateEnemies();
         }
 
         private Orientations ChangeOrientation(int x, int y)

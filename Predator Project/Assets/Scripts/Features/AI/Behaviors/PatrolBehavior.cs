@@ -157,7 +157,7 @@ namespace Predator
 
             enemy.characterDisplay.transform.position = Grid.instance._cells[_x, _y].transform.position;
 
-            enemy.gameManager.UpdateCheckEnemies();
+            enemy.gameManager.aIManager.UpdateEnemies();
 
             posIndex++;
         }

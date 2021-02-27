@@ -16,19 +16,7 @@ namespace Predator
 
         public void CreateDetectionArea()
         {
-            int x, y;
-            enemy.GetEnemyPosition(out x, out y);
-
             ClearDetectionArea();
-
-            //if (Grid.instance.IsInsideGrid(x + 1, y))
-            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x + 1, y]); Grid.instance._cells[x + 1, y].SetToDetectionArea(detectionColor); }
-            //if (Grid.instance.IsInsideGrid(x - 1, y))
-            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x - 1, y]); Grid.instance._cells[x - 1, y].SetToDetectionArea(detectionColor); }
-            //if (Grid.instance.IsInsideGrid(x, y + 1))
-            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x, y + 1]); Grid.instance._cells[x, y + 1].SetToDetectionArea(detectionColor); }
-            //if (Grid.instance.IsInsideGrid(x, y - 1))
-            //{ detectionArea.DetectedCells.Add(Grid.instance._cells[x, y - 1]); Grid.instance._cells[x, y - 1].SetToDetectionArea(detectionColor); }
 
             detectionArea.CreateDetectionArea();
         }
