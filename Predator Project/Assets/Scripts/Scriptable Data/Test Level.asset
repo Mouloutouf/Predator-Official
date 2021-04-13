@@ -15,3 +15,305 @@ MonoBehaviour:
   width: 12
   height: 8
   EnvironmentDataBase: {fileID: 11400000, guid: 76df171274130c0469c0103507b1a4a3, type: 2}
+  map:
+    environmentArrays:
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+    - environments:
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 3
+        color: {r: 0.06448025, g: 0.43880317, b: 0.5943396, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+    - environments:
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+    - environments:
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 2
+        color: {r: 0.04387683, g: 0.5471698, b: 0.33603054, a: 1}
+        visible: 0
+      - enviroType: 6
+        color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+        visible: 0
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1
+      - enviroType: 1
+        color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+        visible: 1

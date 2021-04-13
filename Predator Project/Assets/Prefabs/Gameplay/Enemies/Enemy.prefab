@@ -49,6 +49,7 @@ MonoBehaviour:
   detectionBehavior: {fileID: 8518790366933070583}
   patrolBehavior: {fileID: 1507797784645285914}
   _enemyDisplay: {fileID: 0}
+  startOrientation: 0
   energyAmount: 40
   actionAmount: 3
   waitTime: 0.1
@@ -80,7 +81,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionBehavior: {fileID: 8518790366933070583}
-  maxDepth: 2
 --- !u!114 &1507797784645285914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,4 +96,4 @@ MonoBehaviour:
   pathfinding: 0
   path: []
   enemy: {fileID: 8518790366933070582}
-  waitTime: 0.1
+  waitTime: 0.2

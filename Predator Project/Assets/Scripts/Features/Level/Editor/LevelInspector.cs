@@ -43,7 +43,7 @@ namespace Predator
 
             bool hasChangedSize = inputWidth != level.width || inputHeight != level.height;
             bool hasMinimumSize = inputWidth > 0 && inputHeight > 0;
-            GUI.enabled = hasMinimumSize && hasChangedSize && hasEnvironmentData;
+            GUI.enabled = hasMinimumSize && hasEnvironmentData;
 
             if (GUILayout.Button("Create New Level"))
             {

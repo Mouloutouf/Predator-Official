@@ -24,7 +24,8 @@ namespace Predator
 
         public EnvironmentData EnvironmentDataBase;
 
-        public EnvironmentMap map { get; set; }
+        [ReadOnly]
+        public EnvironmentMap map;
 
         void OnEnable()
         {

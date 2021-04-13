@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa24fd24e159f754e88fd887da303406, type: 3}
   m_Name: Blank Level
   m_EditorClassIdentifier: 
-  width: 12
-  height: 8
+  width: 24
+  height: 16
   EnvironmentDataBase: {fileID: 11400000, guid: 76df171274130c0469c0103507b1a4a3, type: 2}

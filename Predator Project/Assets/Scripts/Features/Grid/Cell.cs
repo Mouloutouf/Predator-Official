@@ -17,10 +17,12 @@ namespace Predator
 
         public Image _environmentDisplay { get => _cellDisplay.environmentDisplay; }
         public Image _actionDisplay { get => _cellDisplay.actionDisplay; }
-        public  Image _detectionDisplay { get => _cellDisplay.detectionDisplay; }
+        public Image _detectionDisplay { get => _cellDisplay.detectionDisplay; }
 
         public EnemyManager _enemy { get; set; }
         public PlayerManager _player { get; set; }
+
+        public bool isBloody { get; set; }
 
         void Start()
         {

@@ -107,7 +107,11 @@ namespace Predator
         {
             UpdatePosition();
 
-            UpdateVision(orientation);
+            if (status != Status.Dead)
+            {
+                UpdateVision(orientation);
+                gameManager.aIManager.DetectionCheck();
+            }
         }
         private void UpdatePosition()
         {
@@ -119,31 +123,9 @@ namespace Predator
         }
         private void UpdateVision(Orientations orientation)
         {
-            ChangeVisionConeAngle(orientation);
+            visionConeDisplay.ChangeVisionConeAngle(orientation);
 
             detectionBehavior.CreateDetectionArea();
-        }
-        private void ChangeVisionConeAngle(Orientations orientation)
-        {
-            Vector3 newRotation = visionConeDisplay.transform.rotation.eulerAngles;
-
-            switch (orientation)
-            {
-                case Orientations.Up: newRotation.z = 180; break;
-                case Orientations.Right: newRotation.z = 90; break;
-                case Orientations.Down: newRotation.z = 0; break;
-                case Orientations.Left: newRotation.z = -90; break;
-                case Orientations.UpRight: newRotation.z = 135; break;
-                case Orientations.DownRight: newRotation.z = 45; break;
-                case Orientations.DownLeft: newRotation.z = -45; break;
-                case Orientations.UpLeft: newRotation.z = -135; break;
-                default: break;
-            }
-
-            Quaternion quaternion = Quaternion.identity;
-            quaternion.eulerAngles = newRotation;
-
-            visionConeDisplay.transform.rotation = quaternion;
         }
         #endregion
     }
